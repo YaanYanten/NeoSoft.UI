@@ -1,0 +1,13 @@
+C:\Users\ottcomputer\source\Nueva carpeta\NeoSoft.UI\bin\x86\Release\net8.0-windows\NeoSoft.UI.deps.json
+C:\Users\ottcomputer\source\Nueva carpeta\NeoSoft.UI\bin\x86\Release\net8.0-windows\NeoSoft.UI.dll
+C:\Users\ottcomputer\source\Nueva carpeta\NeoSoft.UI\bin\x86\Release\net8.0-windows\NeoSoft.UI.xml
+C:\Users\ottcomputer\source\Nueva carpeta\NeoSoft.UI\obj\x86\Release\net8.0-windows\NeoSoft.UI.Controls.SimpleButton.resources
+C:\Users\ottcomputer\source\Nueva carpeta\NeoSoft.UI\obj\x86\Release\net8.0-windows\NeoSoft.UI.Dialogs.ImagePickerDialog.resources
+C:\Users\ottcomputer\source\Nueva carpeta\NeoSoft.UI\obj\x86\Release\net8.0-windows\NeoSoft.UI.csproj.GenerateResource.cache
+C:\Users\ottcomputer\source\Nueva carpeta\NeoSoft.UI\obj\x86\Release\net8.0-windows\NeoSoft.UI.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\ottcomputer\source\Nueva carpeta\NeoSoft.UI\obj\x86\Release\net8.0-windows\NeoSoft.UI.AssemblyInfoInputs.cache
+C:\Users\ottcomputer\source\Nueva carpeta\NeoSoft.UI\obj\x86\Release\net8.0-windows\NeoSoft.UI.AssemblyInfo.cs
+C:\Users\ottcomputer\source\Nueva carpeta\NeoSoft.UI\obj\x86\Release\net8.0-windows\NeoSoft.UI.csproj.CoreCompileInputs.cache
+C:\Users\ottcomputer\source\Nueva carpeta\NeoSoft.UI\obj\x86\Release\net8.0-windows\NeoSoft.UI.dll
+C:\Users\ottcomputer\source\Nueva carpeta\NeoSoft.UI\obj\x86\Release\net8.0-windows\refint\NeoSoft.UI.dll
+C:\Users\ottcomputer\source\Nueva carpeta\NeoSoft.UI\obj\x86\Release\net8.0-windows\ref\NeoSoft.UI.dll

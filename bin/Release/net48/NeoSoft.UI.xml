@@ -1,0 +1,422 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>NeoSoft.UI</name>
+    </assembly>
+    <members>
+        <member name="T:NeoSoft.UI.Controls.PlaceholderTextBox">
+            <summary>
+            TextBox with placeholder text support for .NET Framework 4.8
+            </summary>
+        </member>
+        <member name="P:NeoSoft.UI.Controls.PlaceholderTextBox.PlaceholderText">
+            <summary>
+            Gets or sets the placeholder text
+            </summary>
+        </member>
+        <member name="P:NeoSoft.UI.Controls.PlaceholderTextBox.PlaceholderColor">
+            <summary>
+            Gets or sets the placeholder text color
+            </summary>
+        </member>
+        <member name="P:NeoSoft.UI.Controls.PlaceholderTextBox.TextColor">
+            <summary>
+            Gets or sets the normal text color
+            </summary>
+        </member>
+        <member name="P:NeoSoft.UI.Controls.PlaceholderTextBox.RealText">
+            <summary>
+            Gets the actual text value (excluding placeholder)
+            </summary>
+        </member>
+        <member name="M:NeoSoft.UI.Controls.PlaceholderTextBox.SetText(System.String)">
+            <summary>
+            Sets the text value programmatically
+            </summary>
+        </member>
+        <member name="M:NeoSoft.UI.Controls.PlaceholderTextBox.Clear">
+            <summary>
+            Clears the textbox
+            </summary>
+        </member>
+        <member name="T:NeoSoft.UI.Controls.SimpleButton">
+            <summary>
+            Advanced button control with customizable styles, icons, and themes
+            </summary>
+        </member>
+        <member name="P:NeoSoft.UI.Controls.SimpleButton.Style">
+            <summary>
+            Gets or sets the visual style of the button
+            </summary>
+        </member>
+        <member name="P:NeoSoft.UI.Controls.SimpleButton.PrimaryColor">
+            <summary>
+            Gets or sets the primary color of the button
+            </summary>
+        </member>
+        <member name="P:NeoSoft.UI.Controls.SimpleButton.HoverColor">
+            <summary>
+            Gets or sets the color when the mouse hovers over the button
+            </summary>
+        </member>
+        <member name="P:NeoSoft.UI.Controls.SimpleButton.PressedColor">
+            <summary>
+            Gets or sets the color when the button is pressed
+            </summary>
+        </member>
+        <member name="P:NeoSoft.UI.Controls.SimpleButton.BorderColor">
+            <summary>
+            Gets or sets the border color
+            </summary>
+        </member>
+        <member name="P:NeoSoft.UI.Controls.SimpleButton.TextColor">
+            <summary>
+            Gets or sets the text color
+            </summary>
+        </member>
+        <member name="P:NeoSoft.UI.Controls.SimpleButton.BorderRadius">
+            <summary>
+            Gets or sets the radius of rounded corners
+            </summary>
+        </member>
+        <member name="P:NeoSoft.UI.Controls.SimpleButton.BorderWidth">
+            <summary>
+            Gets or sets the width of the border
+            </summary>
+        </member>
+        <member name="P:NeoSoft.UI.Controls.SimpleButton.Icon">
+            <summary>
+            Gets or sets the icon image
+            </summary>
+        </member>
+        <member name="P:NeoSoft.UI.Controls.SimpleButton.IconPosition">
+            <summary>
+            Gets or sets the position of the icon relative to text
+            </summary>
+        </member>
+        <member name="P:NeoSoft.UI.Controls.SimpleButton.IconSize">
+            <summary>
+            Gets or sets the size of the icon
+            </summary>
+        </member>
+        <member name="P:NeoSoft.UI.Controls.SimpleButton.IconSpacing">
+            <summary>
+            Gets or sets the spacing between icon and text
+            </summary>
+        </member>
+        <member name="P:NeoSoft.UI.Controls.SimpleButton.PredefinedIconType">
+            <summary>
+            Gets or sets a predefined icon
+            </summary>
+        </member>
+        <member name="P:NeoSoft.UI.Controls.SimpleButton.EnableAnimation">
+            <summary>
+            Gets or sets whether animations are enabled
+            </summary>
+        </member>
+        <member name="M:NeoSoft.UI.Controls.SimpleButton.#ctor">
+            <summary>
+            Initializes a new instance of the SimpleButton class
+            </summary>
+        </member>
+        <member name="T:NeoSoft.UI.Designers.SimpleButtonActionList">
+            <summary>
+            Provides smart tags (quick actions) for the SimpleButton in the designer
+            </summary>
+        </member>
+        <member name="P:NeoSoft.UI.Designers.SimpleButtonActionList.ButtonText">
+            <summary>
+            Gets or sets the button text
+            </summary>
+        </member>
+        <member name="P:NeoSoft.UI.Designers.SimpleButtonActionList.ButtonStyle">
+            <summary>
+            Gets or sets the button style
+            </summary>
+        </member>
+        <member name="P:NeoSoft.UI.Designers.SimpleButtonActionList.PrimaryColor">
+            <summary>
+            Gets or sets the primary color
+            </summary>
+        </member>
+        <member name="P:NeoSoft.UI.Designers.SimpleButtonActionList.BorderRadius">
+            <summary>
+            Gets or sets the border radius
+            </summary>
+        </member>
+        <member name="P:NeoSoft.UI.Designers.SimpleButtonActionList.IconType">
+            <summary>
+            Gets or sets the predefined icon
+            </summary>
+        </member>
+        <member name="P:NeoSoft.UI.Designers.SimpleButtonActionList.IconPosition">
+            <summary>
+            Gets or sets the icon position
+            </summary>
+        </member>
+        <member name="M:NeoSoft.UI.Designers.SimpleButtonActionList.SelectIcon">
+            <summary>
+            Open Image Picker dialog to select an icon
+            </summary>
+        </member>
+        <member name="M:NeoSoft.UI.Designers.SimpleButtonActionList.ApplyLightTheme">
+            <summary>
+            Apply a light theme preset
+            </summary>
+        </member>
+        <member name="M:NeoSoft.UI.Designers.SimpleButtonActionList.ApplyDarkTheme">
+            <summary>
+            Apply a dark theme preset
+            </summary>
+        </member>
+        <member name="M:NeoSoft.UI.Designers.SimpleButtonActionList.ApplyBlueTheme">
+            <summary>
+            Apply a blue theme preset
+            </summary>
+        </member>
+        <member name="M:NeoSoft.UI.Designers.SimpleButtonActionList.ApplyGreenTheme">
+            <summary>
+            Apply a green theme preset
+            </summary>
+        </member>
+        <member name="M:NeoSoft.UI.Designers.SimpleButtonActionList.ApplyRedTheme">
+            <summary>
+            Apply a red theme preset
+            </summary>
+        </member>
+        <member name="M:NeoSoft.UI.Designers.SimpleButtonActionList.ApplyPurpleTheme">
+            <summary>
+            Apply a purple theme preset
+            </summary>
+        </member>
+        <member name="M:NeoSoft.UI.Designers.SimpleButtonActionList.ResetToDefault">
+            <summary>
+            Reset to default settings
+            </summary>
+        </member>
+        <member name="T:NeoSoft.UI.Designers.SimpleButtonDesigner">
+            <summary>
+            Custom designer for SimpleButton that provides smart tags and design-time support
+            </summary>
+        </member>
+        <member name="P:NeoSoft.UI.Designers.SimpleButtonDesigner.ActionLists">
+            <summary>
+            Gets the design-time action lists supported by the component
+            </summary>
+        </member>
+        <member name="M:NeoSoft.UI.Designers.SimpleButtonDesigner.Initialize(System.ComponentModel.IComponent)">
+            <summary>
+            Initializes the designer
+            </summary>
+            <param name="component">The component being designed</param>
+        </member>
+        <member name="M:NeoSoft.UI.Designers.SimpleButtonDesigner.PreFilterProperties(System.Collections.IDictionary)">
+            <summary>
+            Filters properties to hide or customize in the property grid
+            </summary>
+        </member>
+        <member name="P:NeoSoft.UI.Designers.SimpleButtonDesigner.SelectionRules">
+            <summary>
+            Gets the selection rules for the control
+            </summary>
+        </member>
+        <member name="T:NeoSoft.UI.Dialogs.ImagePickerDialog">
+            <summary>
+            Image Picker dialog for selecting icons
+            </summary>
+        </member>
+        <member name="P:NeoSoft.UI.Dialogs.ImagePickerDialog.SelectedImage">
+            <summary>
+            Gets the selected image
+            </summary>
+        </member>
+        <member name="P:NeoSoft.UI.Dialogs.ImagePickerDialog.SelectedIconName">
+            <summary>
+            Gets the selected icon name
+            </summary>
+        </member>
+        <member name="P:NeoSoft.UI.Dialogs.ImagePickerDialog.SelectedIconSize">
+            <summary>
+            Gets the selected icon size
+            </summary>
+        </member>
+        <member name="P:NeoSoft.UI.Dialogs.ImagePickerDialog.SelectedIcon">
+            <summary>
+            Gets the selected predefined icon (for compatibility)
+            </summary>
+        </member>
+        <member name="T:NeoSoft.UI.Editors.IconUITypeEditor">
+            <summary>
+            Custom UI Type Editor for PredefinedIcon property with ellipsis button
+            </summary>
+        </member>
+        <member name="M:NeoSoft.UI.Editors.IconUITypeEditor.GetEditStyle(System.ComponentModel.ITypeDescriptorContext)">
+            <summary>
+            Gets the editor style - Modal dialog
+            </summary>
+        </member>
+        <member name="M:NeoSoft.UI.Editors.IconUITypeEditor.EditValue(System.ComponentModel.ITypeDescriptorContext,System.IServiceProvider,System.Object)">
+            <summary>
+            Edits the value by showing the Image Picker dialog
+            </summary>
+        </member>
+        <member name="T:NeoSoft.UI.Editors.ImageUITypeEditor">
+            <summary>
+            Custom UI Type Editor for Image property with ellipsis button
+            </summary>
+        </member>
+        <member name="M:NeoSoft.UI.Editors.ImageUITypeEditor.GetEditStyle(System.ComponentModel.ITypeDescriptorContext)">
+            <summary>
+            Gets the editor style - Modal dialog
+            </summary>
+        </member>
+        <member name="M:NeoSoft.UI.Editors.ImageUITypeEditor.EditValue(System.ComponentModel.ITypeDescriptorContext,System.IServiceProvider,System.Object)">
+            <summary>
+            Edits the value by showing the Image Picker dialog
+            </summary>
+        </member>
+        <member name="M:NeoSoft.UI.Editors.ImageUITypeEditor.GetPaintValueSupported(System.ComponentModel.ITypeDescriptorContext)">
+            <summary>
+            Indicates we can paint a representation of the value
+            </summary>
+        </member>
+        <member name="M:NeoSoft.UI.Editors.ImageUITypeEditor.PaintValue(System.Drawing.Design.PaintValueEventArgs)">
+            <summary>
+            Paints a representation of the value
+            </summary>
+        </member>
+        <member name="T:NeoSoft.UI.Enums.ButtonStyle">
+            <summary>
+            Defines the visual style of the button
+            </summary>
+        </member>
+        <member name="F:NeoSoft.UI.Enums.ButtonStyle.Flat">
+            <summary>
+            Default flat style with solid colors
+            </summary>
+        </member>
+        <member name="F:NeoSoft.UI.Enums.ButtonStyle.Rounded">
+            <summary>
+            Rounded corners with smooth edges
+            </summary>
+        </member>
+        <member name="F:NeoSoft.UI.Enums.ButtonStyle.Outline">
+            <summary>
+            Outlined style with transparent background
+            </summary>
+        </member>
+        <member name="F:NeoSoft.UI.Enums.ButtonStyle.Gradient">
+            <summary>
+            Gradient background from top to bottom
+            </summary>
+        </member>
+        <member name="F:NeoSoft.UI.Enums.ButtonStyle.Material">
+            <summary>
+            Material Design style with elevation shadow
+            </summary>
+        </member>
+        <member name="F:NeoSoft.UI.Enums.ButtonStyle.Glass">
+            <summary>
+            Glass effect with transparency
+            </summary>
+        </member>
+        <member name="T:NeoSoft.UI.Enums.ImagePosition">
+            <summary>
+            Defines the position of the icon relative to text
+            </summary>
+        </member>
+        <member name="F:NeoSoft.UI.Enums.ImagePosition.Left">
+            <summary>
+            Icon positioned to the left of text
+            </summary>
+        </member>
+        <member name="F:NeoSoft.UI.Enums.ImagePosition.Right">
+            <summary>
+            Icon positioned to the right of text
+            </summary>
+        </member>
+        <member name="F:NeoSoft.UI.Enums.ImagePosition.Top">
+            <summary>
+            Icon positioned above text
+            </summary>
+        </member>
+        <member name="F:NeoSoft.UI.Enums.ImagePosition.Bottom">
+            <summary>
+            Icon positioned below text
+            </summary>
+        </member>
+        <member name="F:NeoSoft.UI.Enums.ImagePosition.Center">
+            <summary>
+            Icon centered, no text visible
+            </summary>
+        </member>
+        <member name="T:NeoSoft.UI.Enums.PredefinedIcon">
+            <summary>
+            Predefined icon types for quick selection
+            </summary>
+        </member>
+        <member name="T:NeoSoft.UI.Enums.ThemePreset">
+            <summary>
+            Available theme presets
+            </summary>
+        </member>
+        <member name="T:NeoSoft.UI.Helpers.IconResourceLoader">
+            <summary>
+            Helper class to load icons from embedded resources
+            </summary>
+        </member>
+        <member name="T:NeoSoft.UI.Helpers.IconResourceLoader.IconResource">
+            <summary>
+            Icon resource information
+            </summary>
+        </member>
+        <member name="M:NeoSoft.UI.Helpers.IconResourceLoader.LoadAllIcons">
+            <summary>
+            Loads all icons from embedded resources
+            </summary>
+        </member>
+        <member name="M:NeoSoft.UI.Helpers.IconResourceLoader.ExtractCategory(System.String)">
+            <summary>
+            Extracts category from resource name
+            Example: NeoSoft.UI.Resources.Images.Actions.ICONS_16.Add_x_16.png → Actions
+            </summary>
+        </member>
+        <member name="M:NeoSoft.UI.Helpers.IconResourceLoader.ExtractIconName(System.String)">
+            <summary>
+            Extracts icon name from resource name
+            Example: Add_x_16.png → Add
+            </summary>
+        </member>
+        <member name="M:NeoSoft.UI.Helpers.IconResourceLoader.ExtractSize(System.String)">
+            <summary>
+            Extracts size from resource name
+            Example: Add_x_16.png → 16
+            </summary>
+        </member>
+        <member name="M:NeoSoft.UI.Helpers.IconResourceLoader.GetCategories">
+            <summary>
+            Gets all available categories
+            </summary>
+        </member>
+        <member name="M:NeoSoft.UI.Helpers.IconResourceLoader.GetIcons(System.String,System.Int32)">
+            <summary>
+            Gets icons by category and size
+            </summary>
+        </member>
+        <member name="M:NeoSoft.UI.Helpers.IconResourceLoader.GetAvailableSizes(System.String)">
+            <summary>
+            Gets available sizes for a category
+            </summary>
+        </member>
+        <member name="M:NeoSoft.UI.Helpers.IconResourceLoader.GetIcon(System.String,System.Int32)">
+            <summary>
+            Gets an icon by name and size
+            </summary>
+        </member>
+        <member name="M:NeoSoft.UI.Helpers.IconResourceLoader.ClearCache">
+            <summary>
+            Clears the icon cache
+            </summary>
+        </member>
+    </members>
+</doc>

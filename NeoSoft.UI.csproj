@@ -1,0 +1,87 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <!-- Multi-targeting: .NET 8.0 y .NET Framework 4.8 -->
+    <TargetFrameworks>net8.0-windows;net48</TargetFrameworks>
+    <UseWindowsForms>true</UseWindowsForms>
+    <OutputType>Library</OutputType>
+    <LangVersion>latest</LangVersion>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>disable</ImplicitUsings>
+
+    <!-- Assembly Information -->
+    <AssemblyName>NeoSoft.UI</AssemblyName>
+    <RootNamespace>NeoSoft.UI</RootNamespace>
+    <Version>1.0.0</Version>
+    <FileVersion>1.0.0.0</FileVersion>
+    <AssemblyVersion>1.0.0.0</AssemblyVersion>
+
+    <!-- Package Information -->
+    <Authors>Yaan Yanten</Authors>
+    <Company>NeoSoft</Company>
+    <Product>NeoSoft.UI Controls Library</Product>
+    <Description>Professional Windows Forms control library with advanced buttons, text boxes, grids, and more. Includes modern styling, themes, and designer support.</Description>
+    <Copyright>Copyright © 2025 Yaan Yanten</Copyright>
+    <PackageProjectUrl>https://github.com/yaanyanten/neosoft-ui</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/yaanyanten/neosoft-ui</RepositoryUrl>
+    <PackageTags>winforms;controls;ui;buttons;themes;designer</PackageTags>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
+
+    <!-- Documentation -->
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <DocumentationFile>bin\$(Configuration)\$(TargetFramework)\NeoSoft.UI.xml</DocumentationFile>
+    <NoWarn>$(NoWarn);CS1591</NoWarn>
+
+    <!-- Optimize for release -->
+    <Optimize Condition="'$(Configuration)' == 'Release'">true</Optimize>
+    <DebugType>embedded</DebugType>
+    <DebugSymbols>true</DebugSymbols>
+    <Platforms>AnyCPU;x86</Platforms>
+
+    <!-- Strong Name Signing (opcional) -->
+    <!--<SignAssembly>true</SignAssembly>-->
+    <!--<AssemblyOriginatorKeyFile>NeoSoft.UI.snk</AssemblyOriginatorKeyFile>-->
+  </PropertyGroup>
+
+  <!-- Dependencies for .NET 8.0 -->
+  <ItemGroup Condition="'$(TargetFramework)' == 'net8.0-windows'">
+    <PackageReference Include="System.Drawing.Common" Version="8.0.0" />
+  </ItemGroup>
+
+  <!-- Dependencies for .NET Framework 4.8 -->
+  <ItemGroup Condition="'$(TargetFramework)' == 'net48'">
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Design" />
+  </ItemGroup>
+
+  <!-- Common dependencies for all frameworks -->
+  <ItemGroup>
+    <!-- Design-time support -->
+    <Reference Include="System.Design" Condition="'$(TargetFramework)' == 'net8.0-windows'" />
+  </ItemGroup>
+
+  <!-- Embedded Resources -->
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\**\*.*" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Remove="Enums\ImagePosition.cs" />
+  </ItemGroup>
+
+  <!-- Build output -->
+  <PropertyGroup>
+    <AppendTargetFrameworkToOutputPath>true</AppendTargetFrameworkToOutputPath>
+    <AppendRuntimeIdentifierToOutputPath>false</AppendRuntimeIdentifierToOutputPath>
+  </PropertyGroup>
+
+  <!-- Post-build: Copy to common output folder -->
+  <Target Name="PostBuildMacros" AfterTargets="PostBuildEvent">
+    <ItemGroup>
+      <OutputFiles Include="$(OutDir)**\*.*" />
+    </ItemGroup>
+    <Message Text="Build completed: $(TargetFramework)" Importance="high" />
+  </Target>
+
+</Project>
