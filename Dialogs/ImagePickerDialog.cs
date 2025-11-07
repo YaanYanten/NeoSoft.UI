@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
-using System.Linq;
 using System.Windows.Forms;
 using NeoSoft.UI.Enums;
 using NeoSoft.UI.Helpers;
@@ -10,31 +9,16 @@ namespace NeoSoft.UI.Dialogs
 {
     /// <summary>
     /// Image Picker dialog for selecting icons
+    /// SEPARATED DESIGNER VERSION - UI in Designer.cs file
     /// </summary>
-    public class ImagePickerDialog : Form
+    public partial class ImagePickerDialog : Form
     {
         #region Private Fields
 
         private Image _selectedImage;
         private string _selectedIconName;
         private int _selectedIconSize = 16;
-
-        private TabControl tabControl;
-        private TabPage tabImagePicker;
-        private TabPage tabRasterImages;
-        private TabPage tabVectorImages;
-        private TabPage tabFontIcons;
-
-        private ListBox lstCategories;
-        private FlowLayoutPanel flowIcons;
-        private TextBox txtSearch;
-        private ComboBox cmbSize;
-        private Button btnOK;
-        private Button btnCancel;
-        private Button btnReset;
-        private RadioButton rbFormResources;
-        private RadioButton rbProjectResources;
-
+        private PredefinedIcon _selectedPredefinedIcon = PredefinedIcon.None;
         private bool _isSearchPlaceholder = true;
 
         #endregion
@@ -57,13 +41,15 @@ namespace NeoSoft.UI.Dialogs
         public int SelectedIconSize => _selectedIconSize;
 
         /// <summary>
-        /// Gets the selected predefined icon (for compatibility)
+        /// Gets the selected predefined icon
         /// </summary>
         public PredefinedIcon SelectedIcon
         {
             get
             {
-                // Try to match the selected icon name to a predefined icon
+                if (_selectedPredefinedIcon != PredefinedIcon.None)
+                    return _selectedPredefinedIcon;
+
                 if (string.IsNullOrEmpty(_selectedIconName))
                     return PredefinedIcon.None;
 
@@ -81,6 +67,7 @@ namespace NeoSoft.UI.Dialogs
         public ImagePickerDialog()
         {
             InitializeComponent();
+            InitializeEvents();
             LoadCategories();
             LoadIcons();
         }
@@ -89,288 +76,57 @@ namespace NeoSoft.UI.Dialogs
 
         #region Initialization
 
-        private void InitializeComponent()
+        /// <summary>
+        /// Initialize event handlers
+        /// </summary>
+        private void InitializeEvents()
         {
-            // Form configuration
-            this.Text = "Image Picker";
-            this.Size = new Size(680, 650);
-            this.StartPosition = FormStartPosition.CenterParent;
-            this.FormBorderStyle = FormBorderStyle.FixedDialog;
-            this.MaximizeBox = false;
-            this.MinimizeBox = false;
-            this.Font = new Font("Segoe UI", 9F);
-
-            // TabControl
-            tabControl = new TabControl
-            {
-                Location = new Point(12, 12),
-                Size = new Size(640, 530),
-                Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right | AnchorStyles.Bottom
-            };
-
-            // Tab Pages
-            CreateImagePickerTab();
-            CreateRasterImagesTab();
-            CreateVectorImagesTab();
-            CreateFontIconsTab();
-
-            // Buttons
-            CreateButtons();
-
-            // Version label
-            Label lblVersion = new Label
-            {
-                Text = "Version 1.0.0",
-                Location = new Point(12, 565),
-                Size = new Size(150, 20),
-                ForeColor = Color.Gray,
-                Anchor = AnchorStyles.Bottom | AnchorStyles.Left
-            };
-
-            // Add controls
-            this.Controls.Add(tabControl);
-            this.Controls.Add(lblVersion);
-        }
-
-        private void CreateImagePickerTab()
-        {
-            tabImagePicker = new TabPage("Image Picker");
-            tabControl.TabPages.Add(tabImagePicker);
-
-            // Search box
-            txtSearch = new TextBox
-            {
-                Location = new Point(320, 10),
-                Size = new Size(200, 25),
-                Text = "Enter text to search...",
-                ForeColor = Color.Gray
-            };
+            // Search box events
             txtSearch.Enter += TxtSearch_Enter;
             txtSearch.Leave += TxtSearch_Leave;
             txtSearch.TextChanged += TxtSearch_TextChanged;
 
-            // Size filter label
-            Label lblSize = new Label
-            {
-                Text = "Size:",
-                Location = new Point(530, 13),
-                Size = new Size(35, 20)
-            };
-
-            // Size filter ComboBox
-            cmbSize = new ComboBox
-            {
-                Location = new Point(570, 10),
-                Size = new Size(70, 25),
-                DropDownStyle = ComboBoxStyle.DropDownList
-            };
-            cmbSize.Items.AddRange(new object[] { "All", "16x16", "32x32" });
-            cmbSize.SelectedIndex = 0;
+            // ComboBox events
             cmbSize.SelectedIndexChanged += CmbSize_SelectedIndexChanged;
 
-            // Categories label
-            Label lblCategories = new Label
-            {
-                Text = "Categories",
-                Location = new Point(10, 45),
-                Size = new Size(200, 20)
-            };
-
-            // Categories ListBox
-            lstCategories = new ListBox
-            {
-                Location = new Point(10, 70),
-                Size = new Size(200, 380),
-                SelectionMode = SelectionMode.One
-            };
+            // ListBox events
             lstCategories.SelectedIndexChanged += LstCategories_SelectedIndexChanged;
 
-            // Icons FlowLayoutPanel
-            flowIcons = new FlowLayoutPanel
-            {
-                Location = new Point(220, 70),
-                Size = new Size(400, 380),
-                AutoScroll = true,
-                BorderStyle = BorderStyle.FixedSingle,
-                BackColor = Color.White
-            };
-
-            // Resource options
-            rbFormResources = new RadioButton
-            {
-                Text = "Add to form resources",
-                Location = new Point(220, 460),
-                Size = new Size(180, 20),
-                Checked = true
-            };
-
-            rbProjectResources = new RadioButton
-            {
-                Text = "Add to project resources",
-                Location = new Point(410, 460),
-                Size = new Size(180, 20)
-            };
-
-            // Add controls to tab
-            tabImagePicker.Controls.Add(txtSearch);
-            tabImagePicker.Controls.Add(lblSize);
-            tabImagePicker.Controls.Add(cmbSize);
-            tabImagePicker.Controls.Add(lblCategories);
-            tabImagePicker.Controls.Add(lstCategories);
-            tabImagePicker.Controls.Add(flowIcons);
-            tabImagePicker.Controls.Add(rbFormResources);
-            tabImagePicker.Controls.Add(rbProjectResources);
-        }
-
-        private void CreateRasterImagesTab()
-        {
-            tabRasterImages = new TabPage("Raster Images");
-            tabControl.TabPages.Add(tabRasterImages);
-
-            Label lblInfo = new Label
-            {
-                Text = "Import raster images (PNG, JPG, BMP)",
-                Location = new Point(20, 20),
-                Size = new Size(300, 20)
-            };
-
-            Button btnImport = new Button
-            {
-                Text = "Import...",
-                Location = new Point(20, 50),
-                Size = new Size(100, 30)
-            };
-            btnImport.Click += BtnImportRaster_Click;
-
-            Button btnClear = new Button
-            {
-                Text = "Clear",
-                Location = new Point(130, 50),
-                Size = new Size(100, 30)
-            };
-            btnClear.Click += (s, e) => _selectedImage = null;
-
-            tabRasterImages.Controls.Add(lblInfo);
-            tabRasterImages.Controls.Add(btnImport);
-            tabRasterImages.Controls.Add(btnClear);
-        }
-
-        private void CreateVectorImagesTab()
-        {
-            tabVectorImages = new TabPage("Vector Images");
-            tabControl.TabPages.Add(tabVectorImages);
-
-            Label lblInfo = new Label
-            {
-                Text = "Import vector images (SVG) - Coming soon",
-                Location = new Point(20, 20),
-                Size = new Size(300, 20)
-            };
-
-            Button btnImport = new Button
-            {
-                Text = "Import...",
-                Location = new Point(20, 50),
-                Size = new Size(100, 30),
-                Enabled = false
-            };
-
-            tabVectorImages.Controls.Add(lblInfo);
-            tabVectorImages.Controls.Add(btnImport);
-        }
-
-        private void CreateFontIconsTab()
-        {
-            tabFontIcons = new TabPage("Font Icons");
-            tabControl.TabPages.Add(tabFontIcons);
-
-            Label lblTitle = new Label
-            {
-                Text = "Font Icons",
-                Location = new Point(20, 20),
-                Size = new Size(200, 25),
-                Font = new Font("Segoe UI", 12F, FontStyle.Bold)
-            };
-
-            FlowLayoutPanel flowFontIcons = new FlowLayoutPanel
-            {
-                Location = new Point(20, 55),
-                Size = new Size(580, 350),
-                AutoScroll = true,
-                BorderStyle = BorderStyle.FixedSingle,
-                BackColor = Color.White
-            };
-
-            // Add some font icons
-            string[] fontIcons = new[]
-            {
-                "☰", "📶", "🔗", "📱", "📡", "🛡️", "☀️", "👤", "🌙", "✈️",
-                "🖥️", "🔖", "⭐", "✓", "✕", "⚙️", "📹", "✉️", "👥", "📞"
-            };
-
-            foreach (var icon in fontIcons)
-            {
-                Button btnIcon = new Button
-                {
-                    Text = icon,
-                    Size = new Size(45, 45),
-                    Font = new Font("Segoe UI Emoji", 18F),
-                    FlatStyle = FlatStyle.Flat,
-                    Margin = new Padding(3),
-                    Cursor = Cursors.Hand
-                };
-                btnIcon.FlatAppearance.BorderColor = Color.LightGray;
-                flowFontIcons.Controls.Add(btnIcon);
-            }
-
-            Label lblNote = new Label
-            {
-                Text = "NOTE: Font icons are system-dependent",
-                Location = new Point(20, 420),
-                Size = new Size(300, 20),
-                ForeColor = Color.Gray
-            };
-
-            tabFontIcons.Controls.Add(lblTitle);
-            tabFontIcons.Controls.Add(flowFontIcons);
-            tabFontIcons.Controls.Add(lblNote);
-        }
-
-        private void CreateButtons()
-        {
-            btnOK = new Button
-            {
-                Text = "OK",
-                Location = new Point(388, 555),
-                Size = new Size(80, 30),
-                DialogResult = DialogResult.OK,
-                Anchor = AnchorStyles.Bottom | AnchorStyles.Right
-            };
-
-            btnCancel = new Button
-            {
-                Text = "Cancel",
-                Location = new Point(478, 555),
-                Size = new Size(80, 30),
-                DialogResult = DialogResult.Cancel,
-                Anchor = AnchorStyles.Bottom | AnchorStyles.Right
-            };
-
-            btnReset = new Button
-            {
-                Text = "Reset",
-                Location = new Point(568, 555),
-                Size = new Size(80, 30),
-                Anchor = AnchorStyles.Bottom | AnchorStyles.Right
-            };
+            // Button events
             btnReset.Click += BtnReset_Click;
+            btnImportRaster.Click += BtnImportRaster_Click;
+            btnClearRaster.Click += BtnClearRaster_Click;
+        }
 
-            this.Controls.Add(btnOK);
-            this.Controls.Add(btnCancel);
-            this.Controls.Add(btnReset);
+        #endregion
 
-            this.AcceptButton = btnOK;
-            this.CancelButton = btnCancel;
+        #region Public Methods
+
+        /// <summary>
+        /// Sets the initial icon to display as selected when the dialog opens
+        /// </summary>
+        public void SetInitialIcon(PredefinedIcon icon)
+        {
+            _selectedPredefinedIcon = icon;
+
+            if (icon != PredefinedIcon.None)
+            {
+                _selectedIconName = icon.ToString();
+                SelectIconByName(_selectedIconName);
+            }
+        }
+
+        /// <summary>
+        /// Sets the initial image to display as selected when the dialog opens
+        /// </summary>
+        public void SetInitialImage(Image image, string name = null)
+        {
+            if (image != null)
+            {
+                _selectedImage = image;
+                _selectedIconName = name ?? "Custom";
+                _selectedPredefinedIcon = PredefinedIcon.None;
+            }
         }
 
         #endregion
@@ -383,7 +139,6 @@ namespace NeoSoft.UI.Dialogs
             {
                 lstCategories.Items.Clear();
 
-                // Try to load from IconResourceLoader
                 var categories = IconResourceLoader.GetCategories();
 
                 if (categories != null && categories.Count > 0)
@@ -395,15 +150,11 @@ namespace NeoSoft.UI.Dialogs
                 }
                 else
                 {
-                    // Fallback to default categories
+                    // Fallback categories
                     lstCategories.Items.AddRange(new object[]
                     {
-                        "All",
-                        "Actions",
-                        "Arrows",
-                        "Edit",
-                        "Navigation",
-                        "Files"
+                        "All", "Actions", "Arrows", "Edit",
+                        "Navigation", "Files", "Media", "System"
                     });
                 }
 
@@ -415,8 +166,6 @@ namespace NeoSoft.UI.Dialogs
             catch (Exception ex)
             {
                 System.Diagnostics.Debug.WriteLine($"Error loading categories: {ex.Message}");
-
-                // Fallback
                 lstCategories.Items.AddRange(new object[] { "All", "Actions", "Arrows" });
                 lstCategories.SelectedIndex = 0;
             }
@@ -432,16 +181,19 @@ namespace NeoSoft.UI.Dialogs
                 string selectedCategory = lstCategories.SelectedItem?.ToString() ?? "All";
                 int filterSize = GetSelectedSize();
 
-                // Get icons from loader
                 var icons = IconResourceLoader.GetIcons(selectedCategory, filterSize);
 
                 if (icons != null && icons.Count > 0)
                 {
                     foreach (var iconResource in icons)
                     {
+                        // IMPORTANTE: Limpiar el nombre aquí
+                        string cleanName = CleanIconName(iconResource.Name);
+
                         Panel iconPanel = CreateIconPanel(
                             iconResource.Image,
-                            iconResource.Name,
+                            cleanName,  // ← Usar nombre limpio
+                            iconResource.Name, // ← Guardar nombre original para búsqueda
                             iconResource.Size
                         );
                         flowIcons.Controls.Add(iconPanel);
@@ -449,16 +201,7 @@ namespace NeoSoft.UI.Dialogs
                 }
                 else
                 {
-                    // Show "No icons" message
-                    Label lblNoIcons = new Label
-                    {
-                        Text = "No icons found in this category.\n\nAdd your icons to:\nResources/Images/{Category}/ICONS_{Size}/",
-                        Location = new Point(10, 10),
-                        Size = new Size(350, 100),
-                        ForeColor = Color.Gray,
-                        TextAlign = ContentAlignment.MiddleCenter
-                    };
-                    flowIcons.Controls.Add(lblNoIcons);
+                    ShowNoIconsMessage();
                 }
 
                 flowIcons.ResumeLayout();
@@ -466,16 +209,99 @@ namespace NeoSoft.UI.Dialogs
             catch (Exception ex)
             {
                 System.Diagnostics.Debug.WriteLine($"Error loading icons: {ex.Message}");
-
-                Label lblError = new Label
-                {
-                    Text = $"Error loading icons:\n{ex.Message}",
-                    Location = new Point(10, 10),
-                    Size = new Size(350, 100),
-                    ForeColor = Color.Red
-                };
-                flowIcons.Controls.Add(lblError);
+                ShowErrorMessage(ex.Message);
             }
+        }
+
+        /// <summary>
+        /// Cleans up icon names by removing resource path prefixes
+        /// </summary>
+        private string CleanIconName(string name)
+        {
+            if (string.IsNullOrEmpty(name))
+                return "Unknown";
+
+            string cleanName = name;
+
+            // 1. Remove common prefixes
+            string[] prefixesToRemove = new[]
+            {
+                "NeoSoft.UI.Resources.Images.",
+                "Resources.Images.",
+                "Resources.",
+                "Images."
+            };
+
+            foreach (var prefix in prefixesToRemove)
+            {
+                if (cleanName.StartsWith(prefix, StringComparison.OrdinalIgnoreCase))
+                {
+                    cleanName = cleanName.Substring(prefix.Length);
+                }
+            }
+
+            // 2. Remove file extensions
+            string[] extensionsToRemove = new[]
+            {
+                ".png", ".jpg", ".jpeg", ".bmp", ".gif", ".ico"
+            };
+
+            foreach (var ext in extensionsToRemove)
+            {
+                if (cleanName.EndsWith(ext, StringComparison.OrdinalIgnoreCase))
+                {
+                    cleanName = cleanName.Substring(0, cleanName.Length - ext.Length);
+                    break;
+                }
+            }
+
+            // 3. Replace underscores and dots with spaces
+            cleanName = cleanName.Replace("_", " ").Replace(".", " ");
+
+            // 4. Remove extra spaces
+            while (cleanName.Contains("  "))
+            {
+                cleanName = cleanName.Replace("  ", " ");
+            }
+            cleanName = cleanName.Trim();
+
+            // 5. Limit length
+            if (cleanName.Length > 18)
+            {
+                cleanName = cleanName.Substring(0, 15) + "...";
+            }
+
+            return cleanName;
+        }
+
+        private void ShowNoIconsMessage()
+        {
+            Label lblNoIcons = new Label
+            {
+                Text = "No icons found in this category.\n\n" +
+                       "To add icons:\n" +
+                       "1. Add images to: Resources/Images/{Category}/\n" +
+                       "2. Set Build Action: Embedded Resource",
+                Location = new Point(10, 10),
+                Size = new Size(400, 120),
+                ForeColor = Color.Gray,
+                TextAlign = ContentAlignment.MiddleCenter,
+                Font = new Font("Segoe UI", 9F)
+            };
+            flowIcons.Controls.Add(lblNoIcons);
+        }
+
+        private void ShowErrorMessage(string error)
+        {
+            Label lblError = new Label
+            {
+                Text = $"Error loading icons:\n{error}",
+                Location = new Point(10, 10),
+                Size = new Size(400, 100),
+                ForeColor = Color.Red,
+                Font = new Font("Segoe UI", 9F)
+            };
+            flowIcons.Controls.Add(lblError);
         }
 
         private int GetSelectedSize()
@@ -485,57 +311,70 @@ namespace NeoSoft.UI.Dialogs
 
             string selected = cmbSize.SelectedItem.ToString();
 
-            if (selected == "16x16")
-                return 16;
-            else if (selected == "32x32")
-                return 32;
-
-            return 0; // All sizes
+            switch (selected)
+            {
+                case "16x16": return 16;
+                case "32x32": return 32;
+                case "48x48": return 48;
+                default: return 0; // All
+            }
         }
 
         #endregion
 
         #region UI Creation
 
-        private Panel CreateIconPanel(Image icon, string name, int size)
+        /// <summary>
+        /// Creates an icon panel for the flow layout
+        /// </summary>
+        private Panel CreateIconPanel(Image icon, string displayName, string originalName, int size)
         {
+            int panelHeight = size + 55;
+
             Panel panel = new Panel
             {
-                Size = new Size(70, 85),
+                Size = new Size(75, panelHeight),
                 BorderStyle = BorderStyle.FixedSingle,
                 Cursor = Cursors.Hand,
                 Margin = new Padding(5),
                 BackColor = Color.White,
-                Tag = new IconInfo { Name = name, Size = size, Image = icon }
+                Tag = new IconInfo
+                {
+                    DisplayName = displayName,    // Nombre para mostrar
+                    OriginalName = originalName,  // Nombre original para guardar
+                    Size = size,
+                    Image = icon
+                }
             };
 
             // Icon PictureBox
             PictureBox picIcon = new PictureBox
             {
                 Size = new Size(size, size),
-                Location = new Point((70 - size) / 2, 10),
+                Location = new Point((75 - size) / 2, 10),
                 SizeMode = PictureBoxSizeMode.StretchImage,
                 Image = icon
             };
 
-            // Icon name label
+            // Display name label
             Label lblName = new Label
             {
-                Text = name,
-                Location = new Point(0, size + 15),
-                Size = new Size(70, 30),
+                Text = displayName,  // ← Usar nombre limpio para mostrar
+                Location = new Point(2, size + 15),
+                Size = new Size(71, 30),
                 TextAlign = ContentAlignment.TopCenter,
-                Font = new Font("Segoe UI", 7F)
+                Font = new Font("Segoe UI", 7.5F),
+                AutoSize = false
             };
 
             // Size label
             Label lblSize = new Label
             {
-                Text = $"{size}x{size}",
-                Location = new Point(0, size + 35),
-                Size = new Size(70, 20),
+                Text = $"{size}×{size}",
+                Location = new Point(2, size + 40),
+                Size = new Size(71, 15),
                 TextAlign = ContentAlignment.TopCenter,
-                Font = new Font("Segoe UI", 6F),
+                Font = new Font("Segoe UI", 6.5F),
                 ForeColor = Color.Gray
             };
 
@@ -562,14 +401,45 @@ namespace NeoSoft.UI.Dialogs
             }
 
             // Select this one
-            panel.BackColor = Color.FromArgb(200, 230, 255);
+            panel.BackColor = Color.FromArgb(220, 240, 255);
 
             // Store selection
             if (panel.Tag is IconInfo info)
             {
                 _selectedImage = info.Image;
-                _selectedIconName = info.Name;
+                _selectedIconName = info.OriginalName;  // Guardar nombre original
                 _selectedIconSize = info.Size;
+
+                // Try to parse as predefined icon
+                string nameForParsing = info.OriginalName.Replace(" ", "");
+                if (Enum.TryParse(nameForParsing, true, out PredefinedIcon icon))
+                {
+                    _selectedPredefinedIcon = icon;
+                }
+                else
+                {
+                    _selectedPredefinedIcon = PredefinedIcon.None;
+                }
+            }
+        }
+
+        private void SelectIconByName(string name)
+        {
+            if (string.IsNullOrEmpty(name))
+                return;
+
+            foreach (Control ctrl in flowIcons.Controls)
+            {
+                if (ctrl is Panel panel && panel.Tag is IconInfo info)
+                {
+                    if (info.OriginalName.Equals(name, StringComparison.OrdinalIgnoreCase) ||
+                        info.DisplayName.Equals(name, StringComparison.OrdinalIgnoreCase))
+                    {
+                        SelectIconPanel(panel);
+                        flowIcons.ScrollControlIntoView(panel);
+                        break;
+                    }
+                }
             }
         }
 
@@ -591,7 +461,7 @@ namespace NeoSoft.UI.Dialogs
         {
             if (string.IsNullOrWhiteSpace(txtSearch.Text))
             {
-                txtSearch.Text = "Enter text to search...";
+                txtSearch.Text = "Search icons...";
                 txtSearch.ForeColor = Color.Gray;
                 _isSearchPlaceholder = true;
             }
@@ -608,8 +478,10 @@ namespace NeoSoft.UI.Dialogs
             {
                 if (ctrl is Panel panel && panel.Tag is IconInfo info)
                 {
+                    // Buscar en ambos nombres
                     ctrl.Visible = string.IsNullOrEmpty(searchText) ||
-                                   info.Name.ToLower().Contains(searchText);
+                                   info.DisplayName.ToLower().Contains(searchText) ||
+                                   info.OriginalName.ToLower().Contains(searchText);
                 }
             }
         }
@@ -629,8 +501,9 @@ namespace NeoSoft.UI.Dialogs
             _selectedImage = null;
             _selectedIconName = null;
             _selectedIconSize = 16;
+            _selectedPredefinedIcon = PredefinedIcon.None;
 
-            txtSearch.Text = "Enter text to search...";
+            txtSearch.Text = "Search icons...";
             txtSearch.ForeColor = Color.Gray;
             _isSearchPlaceholder = true;
 
@@ -651,7 +524,10 @@ namespace NeoSoft.UI.Dialogs
         {
             using (OpenFileDialog ofd = new OpenFileDialog())
             {
-                ofd.Filter = "Image Files|*.png;*.jpg;*.jpeg;*.bmp|All Files|*.*";
+                ofd.Filter = "Image Files|*.png;*.jpg;*.jpeg;*.bmp;*.gif|" +
+                            "PNG Files|*.png|" +
+                            "JPEG Files|*.jpg;*.jpeg|" +
+                            "All Files|*.*";
                 ofd.Title = "Select Image";
 
                 if (ofd.ShowDialog() == DialogResult.OK)
@@ -660,16 +536,34 @@ namespace NeoSoft.UI.Dialogs
                     {
                         _selectedImage = Image.FromFile(ofd.FileName);
                         _selectedIconName = System.IO.Path.GetFileNameWithoutExtension(ofd.FileName);
-                        MessageBox.Show("Image loaded successfully!", "Success",
-                            MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        _selectedPredefinedIcon = PredefinedIcon.None;
+
+                        MessageBox.Show(
+                            $"Image loaded successfully!\n\n" +
+                            $"File: {_selectedIconName}\n" +
+                            $"Size: {_selectedImage.Width}×{_selectedImage.Height}",
+                            "Success",
+                            MessageBoxButtons.OK,
+                            MessageBoxIcon.Information);
                     }
                     catch (Exception ex)
                     {
-                        MessageBox.Show($"Error loading image: {ex.Message}", "Error",
-                            MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        MessageBox.Show(
+                            $"Error loading image:\n\n{ex.Message}",
+                            "Error",
+                            MessageBoxButtons.OK,
+                            MessageBoxIcon.Error);
                     }
                 }
             }
+        }
+
+        private void BtnClearRaster_Click(object sender, EventArgs e)
+        {
+            _selectedImage = null;
+            _selectedIconName = null;
+            _selectedPredefinedIcon = PredefinedIcon.None;
+            MessageBox.Show("Selection cleared.", "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
         #endregion
@@ -678,26 +572,10 @@ namespace NeoSoft.UI.Dialogs
 
         private class IconInfo
         {
-            public string Name { get; set; }
+            public string DisplayName { get; set; }   // Nombre limpio para mostrar
+            public string OriginalName { get; set; }  // Nombre original completo
             public int Size { get; set; }
             public Image Image { get; set; }
-        }
-
-        #endregion
-
-        #region Dispose
-
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                // Dispose controls
-                tabControl?.Dispose();
-                btnOK?.Dispose();
-                btnCancel?.Dispose();
-                btnReset?.Dispose();
-            }
-            base.Dispose(disposing);
         }
 
         #endregion

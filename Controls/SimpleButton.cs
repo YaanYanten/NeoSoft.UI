@@ -165,16 +165,22 @@ namespace NeoSoft.UI.Controls
 
         /// <summary>
         /// Gets or sets the icon image
+        /// NOTE: This property can be set either directly or through PredefinedIconType
         /// </summary>
         [Category("NeoSoft Appearance")]
         [Description("The icon to display on the button")]
-        [Editor(typeof(NeoSoft.UI.Editors.ImageUITypeEditor), typeof(System.Drawing.Design.UITypeEditor))]
+        [Editor(typeof(NeoSoft.UI.Editors.ImageIconUITypeEditor), typeof(System.Drawing.Design.UITypeEditor))]
         public Image Icon
         {
             get => _icon;
             set
             {
                 _icon = value;
+                // If setting icon directly, clear predefined icon
+                if (value != null)
+                {
+                    _predefinedIcon = PredefinedIcon.None;
+                }
                 Invalidate();
             }
         }
@@ -229,11 +235,12 @@ namespace NeoSoft.UI.Controls
 
         /// <summary>
         /// Gets or sets a predefined icon
+        /// When set, this automatically updates the Icon property with the corresponding image
         /// </summary>
         [Category("NeoSoft Appearance")]
         [Description("Select a predefined icon")]
         [DefaultValue(typeof(PredefinedIcon), "None")]
-        [Editor(typeof(NeoSoft.UI.Editors.IconUITypeEditor), typeof(System.Drawing.Design.UITypeEditor))]
+        [Editor(typeof(NeoSoft.UI.Editors.PredefinedIconUITypeEditor), typeof(System.Drawing.Design.UITypeEditor))]
         public PredefinedIcon PredefinedIconType
         {
             get => _predefinedIcon;
@@ -243,6 +250,10 @@ namespace NeoSoft.UI.Controls
                 if (value != PredefinedIcon.None)
                 {
                     _icon = GetPredefinedIcon(value);
+                }
+                else
+                {
+                    _icon = null;
                 }
                 Invalidate();
             }
@@ -641,10 +652,27 @@ namespace NeoSoft.UI.Controls
             return Color.FromArgb(r, g, b);
         }
 
-        private Image GetPredefinedIcon(PredefinedIcon iconType)
+        /// <summary>
+        /// Gets a predefined icon as an Image
+        /// This method should load from embedded resources or generate icons
+        /// </summary>
+        public Image GetPredefinedIcon(PredefinedIcon iconType)
         {
-            // This would load from embedded resources or generate icons
-            // For now, returning null - implement icon loading logic
+            // TODO: Implement icon loading from embedded resources
+            // For now, returning null - you should implement this based on your icon resources
+            // Example implementation:
+            /*
+            switch (iconType)
+            {
+                case PredefinedIcon.Home:
+                    return Properties.Resources.icon_home;
+                case PredefinedIcon.Settings:
+                    return Properties.Resources.icon_settings;
+                // ... etc
+                default:
+                    return null;
+            }
+            */
             return null;
         }
 

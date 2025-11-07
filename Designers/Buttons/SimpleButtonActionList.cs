@@ -5,300 +5,280 @@ using System.Drawing;
 using System.Windows.Forms;
 using NeoSoft.UI.Controls;
 using NeoSoft.UI.Enums;
+using NeoSoft.UI.Dialogs;
 
 namespace NeoSoft.UI.Designers
 {
     /// <summary>
-    /// Provides smart tags (quick actions) for the SimpleButton in the designer
+    /// Provides smart tags (designer actions) for SimpleButton
     /// </summary>
     public class SimpleButtonActionList : DesignerActionList
     {
         private SimpleButton _button;
-        private DesignerActionUIService _designerActionService;
+        private DesignerActionUIService _designerActionUIService;
 
+        /// <summary>
+        /// Constructor
+        /// </summary>
         public SimpleButtonActionList(IComponent component) : base(component)
         {
             _button = component as SimpleButton;
-            _designerActionService = GetService(typeof(DesignerActionUIService)) as DesignerActionUIService;
+            _designerActionUIService = GetService(typeof(DesignerActionUIService)) as DesignerActionUIService;
         }
 
-        #region Quick Action Properties
+        #region Properties for Smart Tags
 
         /// <summary>
         /// Gets or sets the button text
         /// </summary>
-        [DisplayName("Text")]
+        [Category("Quick Settings")]
         [Description("The text displayed on the button")]
-        public string ButtonText
+        public string Text
         {
             get => _button.Text;
             set
             {
-                GetPropertyByName("Text").SetValue(_button, value);
-                _designerActionService?.Refresh(_button);
+                SetProperty("Text", value);
             }
         }
 
         /// <summary>
         /// Gets or sets the button style
         /// </summary>
-        [DisplayName("Style")]
+        [Category("Quick Settings")]
         [Description("The visual style of the button")]
-        public ButtonStyle ButtonStyle
+        public ButtonStyle Style
         {
             get => _button.Style;
             set
             {
-                GetPropertyByName("Style").SetValue(_button, value);
-                _designerActionService?.Refresh(_button);
+                SetProperty("Style", value);
             }
         }
 
         /// <summary>
         /// Gets or sets the primary color
         /// </summary>
-        [DisplayName("Primary Color")]
-        [Description("The main background color")]
+        [Category("Quick Settings")]
+        [Description("The primary background color")]
         public Color PrimaryColor
         {
             get => _button.PrimaryColor;
             set
             {
-                GetPropertyByName("PrimaryColor").SetValue(_button, value);
-                _designerActionService?.Refresh(_button);
+                SetProperty("PrimaryColor", value);
             }
         }
 
         /// <summary>
         /// Gets or sets the border radius
         /// </summary>
-        [DisplayName("Border Radius")]
+        [Category("Quick Settings")]
         [Description("The radius of rounded corners")]
         public int BorderRadius
         {
             get => _button.BorderRadius;
             set
             {
-                GetPropertyByName("BorderRadius").SetValue(_button, value);
-                _designerActionService?.Refresh(_button);
+                SetProperty("BorderRadius", value);
             }
         }
 
         /// <summary>
-        /// Gets or sets the predefined icon
+        /// Gets or sets the predefined icon type
         /// </summary>
-        [DisplayName("Icon")]
+        [Category("Icon Settings")]
         [Description("Select a predefined icon")]
-        public PredefinedIcon IconType
+        public PredefinedIcon Icon
         {
             get => _button.PredefinedIconType;
             set
             {
-                GetPropertyByName("PredefinedIconType").SetValue(_button, value);
-                _designerActionService?.Refresh(_button);
+                SetProperty("PredefinedIconType", value);
             }
         }
 
         /// <summary>
         /// Gets or sets the icon position
         /// </summary>
-        [DisplayName("Icon Position")]
-        [Description("Position of the icon relative to text")]
+        [Category("Icon Settings")]
+        [Description("The position of the icon relative to text")]
         public ImagePosition IconPosition
         {
             get => _button.IconPosition;
             set
             {
-                GetPropertyByName("IconPosition").SetValue(_button, value);
-                _designerActionService?.Refresh(_button);
+                SetProperty("IconPosition", value);
             }
         }
 
         #endregion
 
-        #region Quick Action Methods
+        #region Methods (Actions)
 
         /// <summary>
-        /// Open Image Picker dialog to select an icon
+        /// Opens the Image Picker dialog to select an icon
         /// </summary>
         public void SelectIcon()
         {
-            using (var dialog = new NeoSoft.UI.Dialogs.ImagePickerDialog())
+            try
             {
-                if (dialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+                using (var dialog = new ImagePickerDialog())
                 {
-                    if (dialog.SelectedIcon != PredefinedIcon.None)
-                    {
-                        _button.PredefinedIconType = dialog.SelectedIcon;
-                    }
-                    else if (dialog.SelectedImage != null)
-                    {
-                        _button.Icon = dialog.SelectedImage;
-                    }
+                    // Set current icon if exists (will be implemented in ImagePickerDialog)
+                    dialog.SetInitialIcon(_button.PredefinedIconType);
 
-                    _designerActionService?.Refresh(_button);
+                    if (dialog.ShowDialog() == DialogResult.OK)
+                    {
+                        // If a predefined icon was selected
+                        if (dialog.SelectedIcon != PredefinedIcon.None)
+                        {
+                            SetProperty("PredefinedIconType", dialog.SelectedIcon);
+                        }
+                        // If a custom image was selected
+                        else if (dialog.SelectedImage != null)
+                        {
+                            SetProperty("Icon", dialog.SelectedImage);
+                            // Reset predefined icon
+                            SetProperty("PredefinedIconType", PredefinedIcon.None);
+                        }
+                    }
                 }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error opening icon selector: {ex.Message}",
+                    "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
         /// <summary>
-        /// Apply a light theme preset
+        /// Applies the Light theme preset
         /// </summary>
-        public void ApplyLightTheme()
+        public void LightTheme()
         {
-            _button.PrimaryColor = Color.FromArgb(240, 240, 240);
-            _button.HoverColor = Color.FromArgb(220, 220, 220);
-            _button.PressedColor = Color.FromArgb(200, 200, 200);
-            _button.BorderColor = Color.FromArgb(180, 180, 180);
-            _button.TextColor = Color.FromArgb(50, 50, 50);
-            _designerActionService?.Refresh(_button);
+            SetProperty("PrimaryColor", Color.White);
+            SetProperty("TextColor", Color.FromArgb(33, 33, 33));
+            SetProperty("BorderColor", Color.FromArgb(200, 200, 200));
+            SetProperty("HoverColor", Color.FromArgb(245, 245, 245));
+            SetProperty("PressedColor", Color.FromArgb(230, 230, 230));
         }
 
         /// <summary>
-        /// Apply a dark theme preset
+        /// Applies the Dark theme preset
         /// </summary>
-        public void ApplyDarkTheme()
+        public void DarkTheme()
         {
-            _button.PrimaryColor = Color.FromArgb(45, 45, 48);
-            _button.HoverColor = Color.FromArgb(62, 62, 66);
-            _button.PressedColor = Color.FromArgb(27, 27, 28);
-            _button.BorderColor = Color.FromArgb(63, 63, 70);
-            _button.TextColor = Color.White;
-            _designerActionService?.Refresh(_button);
+            SetProperty("PrimaryColor", Color.FromArgb(45, 45, 48));
+            SetProperty("TextColor", Color.White);
+            SetProperty("BorderColor", Color.FromArgb(63, 63, 70));
+            SetProperty("HoverColor", Color.FromArgb(62, 62, 64));
+            SetProperty("PressedColor", Color.FromArgb(30, 30, 32));
         }
 
         /// <summary>
-        /// Apply a blue theme preset
+        /// Applies the Blue theme preset
         /// </summary>
-        public void ApplyBlueTheme()
+        public void BlueTheme()
         {
-            _button.PrimaryColor = Color.FromArgb(0, 122, 204);
-            _button.HoverColor = Color.FromArgb(0, 142, 224);
-            _button.PressedColor = Color.FromArgb(0, 102, 184);
-            _button.BorderColor = Color.FromArgb(0, 122, 204);
-            _button.TextColor = Color.White;
-            _designerActionService?.Refresh(_button);
+            SetProperty("PrimaryColor", Color.FromArgb(0, 122, 204));
+            SetProperty("TextColor", Color.White);
+            SetProperty("BorderColor", Color.FromArgb(0, 122, 204));
+            SetProperty("HoverColor", Color.FromArgb(0, 142, 224));
+            SetProperty("PressedColor", Color.FromArgb(0, 102, 184));
         }
 
         /// <summary>
-        /// Apply a green theme preset
+        /// Applies the Green theme preset
         /// </summary>
-        public void ApplyGreenTheme()
+        public void GreenTheme()
         {
-            _button.PrimaryColor = Color.FromArgb(16, 185, 129);
-            _button.HoverColor = Color.FromArgb(5, 150, 105);
-            _button.PressedColor = Color.FromArgb(4, 120, 87);
-            _button.BorderColor = Color.FromArgb(16, 185, 129);
-            _button.TextColor = Color.White;
-            _designerActionService?.Refresh(_button);
+            SetProperty("PrimaryColor", Color.FromArgb(76, 175, 80));
+            SetProperty("TextColor", Color.White);
+            SetProperty("BorderColor", Color.FromArgb(76, 175, 80));
+            SetProperty("HoverColor", Color.FromArgb(102, 187, 106));
+            SetProperty("PressedColor", Color.FromArgb(56, 142, 60));
         }
 
         /// <summary>
-        /// Apply a red theme preset
+        /// Applies the Red theme preset
         /// </summary>
-        public void ApplyRedTheme()
+        public void RedTheme()
         {
-            _button.PrimaryColor = Color.FromArgb(239, 68, 68);
-            _button.HoverColor = Color.FromArgb(220, 38, 38);
-            _button.PressedColor = Color.FromArgb(185, 28, 28);
-            _button.BorderColor = Color.FromArgb(239, 68, 68);
-            _button.TextColor = Color.White;
-            _designerActionService?.Refresh(_button);
+            SetProperty("PrimaryColor", Color.FromArgb(244, 67, 54));
+            SetProperty("TextColor", Color.White);
+            SetProperty("BorderColor", Color.FromArgb(244, 67, 54));
+            SetProperty("HoverColor", Color.FromArgb(239, 83, 80));
+            SetProperty("PressedColor", Color.FromArgb(211, 47, 47));
         }
 
         /// <summary>
-        /// Apply a purple theme preset
+        /// Applies the Purple theme preset
         /// </summary>
-        public void ApplyPurpleTheme()
+        public void PurpleTheme()
         {
-            _button.PrimaryColor = Color.FromArgb(139, 92, 246);
-            _button.HoverColor = Color.FromArgb(124, 58, 237);
-            _button.PressedColor = Color.FromArgb(109, 40, 217);
-            _button.BorderColor = Color.FromArgb(139, 92, 246);
-            _button.TextColor = Color.White;
-            _designerActionService?.Refresh(_button);
+            SetProperty("PrimaryColor", Color.FromArgb(156, 39, 176));
+            SetProperty("TextColor", Color.White);
+            SetProperty("BorderColor", Color.FromArgb(156, 39, 176));
+            SetProperty("HoverColor", Color.FromArgb(171, 71, 188));
+            SetProperty("PressedColor", Color.FromArgb(123, 31, 162));
         }
 
         /// <summary>
-        /// Reset to default settings
+        /// Resets the button to default settings
         /// </summary>
         public void ResetToDefault()
         {
-            _button.Style = ButtonStyle.Rounded;
-            _button.PrimaryColor = Color.FromArgb(0, 122, 204);
-            _button.HoverColor = Color.FromArgb(0, 142, 224);
-            _button.PressedColor = Color.FromArgb(0, 102, 184);
-            _button.BorderColor = Color.FromArgb(0, 122, 204);
-            _button.TextColor = Color.White;
-            _button.BorderRadius = 8;
-            _button.BorderWidth = 2;
-            _button.PredefinedIconType = PredefinedIcon.None;
-            _button.IconPosition = ImagePosition.Left;
-            _designerActionService?.Refresh(_button);
+            SetProperty("Text", "SimpleButton");
+            SetProperty("Style", ButtonStyle.Rounded);
+            SetProperty("PrimaryColor", Color.FromArgb(0, 122, 204));
+            SetProperty("TextColor", Color.White);
+            SetProperty("BorderColor", Color.FromArgb(0, 122, 204));
+            SetProperty("HoverColor", Color.FromArgb(0, 142, 224));
+            SetProperty("PressedColor", Color.FromArgb(0, 102, 184));
+            SetProperty("BorderRadius", 8);
+            SetProperty("BorderWidth", 2);
+            SetProperty("PredefinedIconType", PredefinedIcon.None);
+            SetProperty("Icon", null);
+            SetProperty("IconPosition", ImagePosition.Left);
         }
 
         #endregion
 
-        #region Designer Action Items
+        #region GetSortedActionItems
 
+        /// <summary>
+        /// Returns the list of designer action items
+        /// </summary>
         public override DesignerActionItemCollection GetSortedActionItems()
         {
             DesignerActionItemCollection items = new DesignerActionItemCollection();
 
-            // Header
+            // Quick Settings Section
             items.Add(new DesignerActionHeaderItem("Quick Settings"));
+            items.Add(new DesignerActionPropertyItem("Text", "Text", "Quick Settings", "The text displayed on the button"));
+            items.Add(new DesignerActionPropertyItem("Style", "Style", "Quick Settings", "The visual style of the button"));
+            items.Add(new DesignerActionPropertyItem("PrimaryColor", "Primary Color", "Quick Settings", "The primary background color"));
+            items.Add(new DesignerActionPropertyItem("BorderRadius", "Border Radius", "Quick Settings", "The radius of rounded corners"));
 
-            // Properties
-            items.Add(new DesignerActionPropertyItem("ButtonText",
-                "Text", "Quick Settings", "Change the button text"));
-
-            items.Add(new DesignerActionPropertyItem("ButtonStyle",
-                "Style", "Quick Settings", "Change the visual style"));
-
-            items.Add(new DesignerActionPropertyItem("PrimaryColor",
-                "Primary Color", "Quick Settings", "Change the main color"));
-
-            items.Add(new DesignerActionPropertyItem("BorderRadius",
-                "Border Radius", "Quick Settings", "Adjust corner roundness"));
-
-            // Icon section
+            // Icon Settings Section
             items.Add(new DesignerActionHeaderItem("Icon Settings"));
+            items.Add(new DesignerActionMethodItem(this, "SelectIcon", "Select Icon...", "Icon Settings", "Open the icon picker dialog", true));
+            items.Add(new DesignerActionPropertyItem("Icon", "Icon", "Icon Settings", "Select a predefined icon"));
+            items.Add(new DesignerActionPropertyItem("IconPosition", "Icon Position", "Icon Settings", "The position of the icon"));
 
-            items.Add(new DesignerActionMethodItem(this, "SelectIcon",
-                "Select Icon...", "Icon Settings", "Open image picker to select an icon", true));
-
-            items.Add(new DesignerActionPropertyItem("IconType",
-                "Icon", "Icon Settings", "Select a predefined icon"));
-
-            items.Add(new DesignerActionPropertyItem("IconPosition",
-                "Icon Position", "Icon Settings", "Position of the icon"));
-
-            // Theme presets
+            // Theme Presets Section
             items.Add(new DesignerActionHeaderItem("Theme Presets"));
+            items.Add(new DesignerActionMethodItem(this, "LightTheme", "Light Theme", "Theme Presets", "Apply light theme colors", true));
+            items.Add(new DesignerActionMethodItem(this, "DarkTheme", "Dark Theme", "Theme Presets", "Apply dark theme colors", true));
+            items.Add(new DesignerActionMethodItem(this, "BlueTheme", "Blue Theme", "Theme Presets", "Apply blue theme colors", true));
+            items.Add(new DesignerActionMethodItem(this, "GreenTheme", "Green Theme", "Theme Presets", "Apply green theme colors", true));
+            items.Add(new DesignerActionMethodItem(this, "RedTheme", "Red Theme", "Theme Presets", "Apply red theme colors", true));
+            items.Add(new DesignerActionMethodItem(this, "PurpleTheme", "Purple Theme", "Theme Presets", "Apply purple theme colors", true));
 
-            items.Add(new DesignerActionMethodItem(this, "ApplyLightTheme",
-                "Light Theme", "Theme Presets", "Apply light color theme", true));
-
-            items.Add(new DesignerActionMethodItem(this, "ApplyDarkTheme",
-                "Dark Theme", "Theme Presets", "Apply dark color theme", true));
-
-            items.Add(new DesignerActionMethodItem(this, "ApplyBlueTheme",
-                "Blue Theme", "Theme Presets", "Apply blue color theme", true));
-
-            items.Add(new DesignerActionMethodItem(this, "ApplyGreenTheme",
-                "Green Theme", "Theme Presets", "Apply green color theme", true));
-
-            items.Add(new DesignerActionMethodItem(this, "ApplyRedTheme",
-                "Red Theme", "Theme Presets", "Apply red color theme", true));
-
-            items.Add(new DesignerActionMethodItem(this, "ApplyPurpleTheme",
-                "Purple Theme", "Theme Presets", "Apply purple color theme", true));
-
-            // Reset
+            // Actions Section
             items.Add(new DesignerActionHeaderItem("Actions"));
-
-            items.Add(new DesignerActionMethodItem(this, "ResetToDefault",
-                "Reset to Default", "Actions", "Reset all settings to default values", true));
+            items.Add(new DesignerActionMethodItem(this, "ResetToDefault", "Reset to Default", "Actions", "Reset all settings to default values", true));
 
             return items;
         }
@@ -307,14 +287,19 @@ namespace NeoSoft.UI.Designers
 
         #region Helper Methods
 
-        private PropertyDescriptor GetPropertyByName(string propertyName)
+        /// <summary>
+        /// Helper method to set a property and notify the designer
+        /// </summary>
+        private void SetProperty(string propertyName, object value)
         {
             PropertyDescriptor property = TypeDescriptor.GetProperties(_button)[propertyName];
-            if (property == null)
+            if (property != null)
             {
-                throw new ArgumentException($"Property {propertyName} not found", nameof(propertyName));
+                property.SetValue(_button, value);
             }
-            return property;
+
+            // Refresh the smart tag panel
+            _designerActionUIService?.Refresh(_button);
         }
 
         #endregion
