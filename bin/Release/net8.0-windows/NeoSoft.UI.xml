@@ -87,6 +87,7 @@
         <member name="P:NeoSoft.UI.Controls.SimpleButton.Icon">
             <summary>
             Gets or sets the icon image
+            NOTE: This property can be set either directly or through PredefinedIconType
             </summary>
         </member>
         <member name="P:NeoSoft.UI.Controls.SimpleButton.IconPosition">
@@ -107,6 +108,7 @@
         <member name="P:NeoSoft.UI.Controls.SimpleButton.PredefinedIconType">
             <summary>
             Gets or sets a predefined icon
+            When set, this automatically updates the Icon property with the corresponding image
             </summary>
         </member>
         <member name="P:NeoSoft.UI.Controls.SimpleButton.EnableAnimation">
@@ -119,17 +121,28 @@
             Initializes a new instance of the SimpleButton class
             </summary>
         </member>
-        <member name="T:NeoSoft.UI.Designers.SimpleButtonActionList">
+        <member name="M:NeoSoft.UI.Controls.SimpleButton.GetPredefinedIcon(NeoSoft.UI.Enums.PredefinedIcon)">
             <summary>
-            Provides smart tags (quick actions) for the SimpleButton in the designer
+            Gets a predefined icon as an Image
+            This method should load from embedded resources or generate icons
             </summary>
         </member>
-        <member name="P:NeoSoft.UI.Designers.SimpleButtonActionList.ButtonText">
+        <member name="T:NeoSoft.UI.Designers.SimpleButtonActionList">
+            <summary>
+            Provides smart tags (designer actions) for SimpleButton
+            </summary>
+        </member>
+        <member name="M:NeoSoft.UI.Designers.SimpleButtonActionList.#ctor(System.ComponentModel.IComponent)">
+            <summary>
+            Constructor
+            </summary>
+        </member>
+        <member name="P:NeoSoft.UI.Designers.SimpleButtonActionList.Text">
             <summary>
             Gets or sets the button text
             </summary>
         </member>
-        <member name="P:NeoSoft.UI.Designers.SimpleButtonActionList.ButtonStyle">
+        <member name="P:NeoSoft.UI.Designers.SimpleButtonActionList.Style">
             <summary>
             Gets or sets the button style
             </summary>
@@ -144,9 +157,9 @@
             Gets or sets the border radius
             </summary>
         </member>
-        <member name="P:NeoSoft.UI.Designers.SimpleButtonActionList.IconType">
+        <member name="P:NeoSoft.UI.Designers.SimpleButtonActionList.Icon">
             <summary>
-            Gets or sets the predefined icon
+            Gets or sets the predefined icon type
             </summary>
         </member>
         <member name="P:NeoSoft.UI.Designers.SimpleButtonActionList.IconPosition">
@@ -156,42 +169,52 @@
         </member>
         <member name="M:NeoSoft.UI.Designers.SimpleButtonActionList.SelectIcon">
             <summary>
-            Open Image Picker dialog to select an icon
+            Opens the Image Picker dialog to select an icon
             </summary>
         </member>
-        <member name="M:NeoSoft.UI.Designers.SimpleButtonActionList.ApplyLightTheme">
+        <member name="M:NeoSoft.UI.Designers.SimpleButtonActionList.LightTheme">
             <summary>
-            Apply a light theme preset
+            Applies the Light theme preset
             </summary>
         </member>
-        <member name="M:NeoSoft.UI.Designers.SimpleButtonActionList.ApplyDarkTheme">
+        <member name="M:NeoSoft.UI.Designers.SimpleButtonActionList.DarkTheme">
             <summary>
-            Apply a dark theme preset
+            Applies the Dark theme preset
             </summary>
         </member>
-        <member name="M:NeoSoft.UI.Designers.SimpleButtonActionList.ApplyBlueTheme">
+        <member name="M:NeoSoft.UI.Designers.SimpleButtonActionList.BlueTheme">
             <summary>
-            Apply a blue theme preset
+            Applies the Blue theme preset
             </summary>
         </member>
-        <member name="M:NeoSoft.UI.Designers.SimpleButtonActionList.ApplyGreenTheme">
+        <member name="M:NeoSoft.UI.Designers.SimpleButtonActionList.GreenTheme">
             <summary>
-            Apply a green theme preset
+            Applies the Green theme preset
             </summary>
         </member>
-        <member name="M:NeoSoft.UI.Designers.SimpleButtonActionList.ApplyRedTheme">
+        <member name="M:NeoSoft.UI.Designers.SimpleButtonActionList.RedTheme">
             <summary>
-            Apply a red theme preset
+            Applies the Red theme preset
             </summary>
         </member>
-        <member name="M:NeoSoft.UI.Designers.SimpleButtonActionList.ApplyPurpleTheme">
+        <member name="M:NeoSoft.UI.Designers.SimpleButtonActionList.PurpleTheme">
             <summary>
-            Apply a purple theme preset
+            Applies the Purple theme preset
             </summary>
         </member>
         <member name="M:NeoSoft.UI.Designers.SimpleButtonActionList.ResetToDefault">
             <summary>
-            Reset to default settings
+            Resets the button to default settings
+            </summary>
+        </member>
+        <member name="M:NeoSoft.UI.Designers.SimpleButtonActionList.GetSortedActionItems">
+            <summary>
+            Returns the list of designer action items
+            </summary>
+        </member>
+        <member name="M:NeoSoft.UI.Designers.SimpleButtonActionList.SetProperty(System.String,System.Object)">
+            <summary>
+            Helper method to set a property and notify the designer
             </summary>
         </member>
         <member name="T:NeoSoft.UI.Designers.SimpleButtonDesigner">
@@ -223,6 +246,7 @@
         <member name="T:NeoSoft.UI.Dialogs.ImagePickerDialog">
             <summary>
             Image Picker dialog for selecting icons
+            SEPARATED DESIGNER VERSION - UI in Designer.cs file
             </summary>
         </member>
         <member name="P:NeoSoft.UI.Dialogs.ImagePickerDialog.SelectedImage">
@@ -242,45 +266,89 @@
         </member>
         <member name="P:NeoSoft.UI.Dialogs.ImagePickerDialog.SelectedIcon">
             <summary>
-            Gets the selected predefined icon (for compatibility)
+            Gets the selected predefined icon
             </summary>
         </member>
-        <member name="T:NeoSoft.UI.Editors.IconUITypeEditor">
+        <member name="M:NeoSoft.UI.Dialogs.ImagePickerDialog.InitializeEvents">
             <summary>
-            Custom UI Type Editor for PredefinedIcon property with ellipsis button
+            Initialize event handlers
             </summary>
         </member>
-        <member name="M:NeoSoft.UI.Editors.IconUITypeEditor.GetEditStyle(System.ComponentModel.ITypeDescriptorContext)">
+        <member name="M:NeoSoft.UI.Dialogs.ImagePickerDialog.SetInitialIcon(NeoSoft.UI.Enums.PredefinedIcon)">
+            <summary>
+            Sets the initial icon to display as selected when the dialog opens
+            </summary>
+        </member>
+        <member name="M:NeoSoft.UI.Dialogs.ImagePickerDialog.SetInitialImage(System.Drawing.Image,System.String)">
+            <summary>
+            Sets the initial image to display as selected when the dialog opens
+            </summary>
+        </member>
+        <member name="M:NeoSoft.UI.Dialogs.ImagePickerDialog.CleanIconName(System.String)">
+            <summary>
+            Cleans up icon names by removing resource path prefixes
+            </summary>
+        </member>
+        <member name="M:NeoSoft.UI.Dialogs.ImagePickerDialog.CreateIconPanel(System.Drawing.Image,System.String,System.String,System.Int32)">
+            <summary>
+            Creates an icon panel for the flow layout
+            </summary>
+        </member>
+        <member name="F:NeoSoft.UI.Dialogs.ImagePickerDialog.components">
+            <summary>
+            Required designer variable.
+            </summary>
+        </member>
+        <member name="M:NeoSoft.UI.Dialogs.ImagePickerDialog.Dispose(System.Boolean)">
+            <summary>
+            Clean up any resources being used.
+            </summary>
+            <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        </member>
+        <member name="M:NeoSoft.UI.Dialogs.ImagePickerDialog.InitializeComponent">
+            <summary>
+            Required method for Designer support - do not modify
+            the contents of this method with the code editor.
+            </summary>
+        </member>
+        <member name="T:NeoSoft.UI.Editors.PredefinedIconUITypeEditor">
+            <summary>
+            Custom UI Type Editor for PredefinedIconType property with ellipsis button
+            Opens ImagePickerDialog and returns the selected PredefinedIcon enum value
+            </summary>
+        </member>
+        <member name="M:NeoSoft.UI.Editors.PredefinedIconUITypeEditor.GetEditStyle(System.ComponentModel.ITypeDescriptorContext)">
             <summary>
             Gets the editor style - Modal dialog
             </summary>
         </member>
-        <member name="M:NeoSoft.UI.Editors.IconUITypeEditor.EditValue(System.ComponentModel.ITypeDescriptorContext,System.IServiceProvider,System.Object)">
+        <member name="M:NeoSoft.UI.Editors.PredefinedIconUITypeEditor.EditValue(System.ComponentModel.ITypeDescriptorContext,System.IServiceProvider,System.Object)">
             <summary>
             Edits the value by showing the Image Picker dialog
             </summary>
         </member>
-        <member name="T:NeoSoft.UI.Editors.ImageUITypeEditor">
+        <member name="T:NeoSoft.UI.Editors.ImageIconUITypeEditor">
             <summary>
-            Custom UI Type Editor for Image property with ellipsis button
+            Custom UI Type Editor for Icon (Image) property with ellipsis button
+            Opens ImagePickerDialog and returns the selected Image
             </summary>
         </member>
-        <member name="M:NeoSoft.UI.Editors.ImageUITypeEditor.GetEditStyle(System.ComponentModel.ITypeDescriptorContext)">
+        <member name="M:NeoSoft.UI.Editors.ImageIconUITypeEditor.GetEditStyle(System.ComponentModel.ITypeDescriptorContext)">
             <summary>
             Gets the editor style - Modal dialog
             </summary>
         </member>
-        <member name="M:NeoSoft.UI.Editors.ImageUITypeEditor.EditValue(System.ComponentModel.ITypeDescriptorContext,System.IServiceProvider,System.Object)">
+        <member name="M:NeoSoft.UI.Editors.ImageIconUITypeEditor.EditValue(System.ComponentModel.ITypeDescriptorContext,System.IServiceProvider,System.Object)">
             <summary>
             Edits the value by showing the Image Picker dialog
             </summary>
         </member>
-        <member name="M:NeoSoft.UI.Editors.ImageUITypeEditor.GetPaintValueSupported(System.ComponentModel.ITypeDescriptorContext)">
+        <member name="M:NeoSoft.UI.Editors.ImageIconUITypeEditor.GetPaintValueSupported(System.ComponentModel.ITypeDescriptorContext)">
             <summary>
             Indicates we can paint a representation of the value
             </summary>
         </member>
-        <member name="M:NeoSoft.UI.Editors.ImageUITypeEditor.PaintValue(System.Drawing.Design.PaintValueEventArgs)">
+        <member name="M:NeoSoft.UI.Editors.ImageIconUITypeEditor.PaintValue(System.Drawing.Design.PaintValueEventArgs)">
             <summary>
             Paints a representation of the value
             </summary>

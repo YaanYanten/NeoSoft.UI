@@ -17,7 +17,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyDescriptionAttribute("Professional Windows Forms control library with advanced buttons, text boxes, gri" +
     "ds, and more. Includes modern styling, themes, and designer support.")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+29c037018839f72b1b5ebe02f59724366f3024ad")]
 [assembly: System.Reflection.AssemblyProductAttribute("NeoSoft.UI Controls Library")]
 [assembly: System.Reflection.AssemblyTitleAttribute("NeoSoft.UI")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
