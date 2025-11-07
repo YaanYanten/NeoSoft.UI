@@ -2,15 +2,8 @@
 {
     partial class ImagePickerDialog
     {
-        /// <summary>
-        /// Required designer variable.
-        /// </summary>
         private System.ComponentModel.IContainer components = null;
 
-        /// <summary>
-        /// Clean up any resources being used.
-        /// </summary>
-        /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
         protected override void Dispose(bool disposing)
         {
             if (disposing && (components != null))
@@ -22,45 +15,51 @@
 
         #region Windows Form Designer generated code
 
-        /// <summary>
-        /// Required method for Designer support - do not modify
-        /// the contents of this method with the code editor.
-        /// </summary>
         private void InitializeComponent()
         {
             tabControl = new System.Windows.Forms.TabControl();
             tabImagePicker = new System.Windows.Forms.TabPage();
-            rbProjectResources = new System.Windows.Forms.RadioButton();
-            rbFormResources = new System.Windows.Forms.RadioButton();
-            flowIcons = new System.Windows.Forms.FlowLayoutPanel();
-            lblIcons = new System.Windows.Forms.Label();
-            lstCategories = new System.Windows.Forms.ListBox();
-            lblCategories = new System.Windows.Forms.Label();
-            panelTop = new System.Windows.Forms.Panel();
-            cmbSize = new System.Windows.Forms.ComboBox();
-            lblSize = new System.Windows.Forms.Label();
-            txtSearch = new System.Windows.Forms.TextBox();
+            panelPreview = new System.Windows.Forms.Panel();
+            picPreview = new System.Windows.Forms.PictureBox();
+            panelLeft = new System.Windows.Forms.Panel();
+            grpResourceContext = new System.Windows.Forms.GroupBox();
+            panelProjectResource = new System.Windows.Forms.Panel();
+            btnImportProject = new System.Windows.Forms.Button();
+            txtProjectResource = new System.Windows.Forms.TextBox();
+            lblProjectResource = new System.Windows.Forms.Label();
+            rbProjectResource = new System.Windows.Forms.RadioButton();
+            panelLocalResource = new System.Windows.Forms.Panel();
+            btnImportLocal = new System.Windows.Forms.Button();
+            btnClearLocal = new System.Windows.Forms.Button();
+            lstLocalResources = new System.Windows.Forms.ListBox();
+            rbLocalResource = new System.Windows.Forms.RadioButton();
             tabRasterImages = new System.Windows.Forms.TabPage();
-            btnClearRaster = new System.Windows.Forms.Button();
-            btnImportRaster = new System.Windows.Forms.Button();
-            lblRasterInfo = new System.Windows.Forms.Label();
+            flowRasterIcons = new System.Windows.Forms.FlowLayoutPanel();
+            panelRasterFilters = new System.Windows.Forms.Panel();
+            lblCategories = new System.Windows.Forms.Label();
+            chkListCategories = new System.Windows.Forms.CheckedListBox();
+            lblSize = new System.Windows.Forms.Label();
+            chkListSize = new System.Windows.Forms.CheckedListBox();
+            lblCollection = new System.Windows.Forms.Label();
+            chkListCollection = new System.Windows.Forms.CheckedListBox();
+            rbAddToForm = new System.Windows.Forms.RadioButton();
+            rbAddToProject = new System.Windows.Forms.RadioButton();
             tabVectorImages = new System.Windows.Forms.TabPage();
-            btnImportVector = new System.Windows.Forms.Button();
-            lblVectorInfo = new System.Windows.Forms.Label();
             tabFontIcons = new System.Windows.Forms.TabPage();
-            lblFontNote = new System.Windows.Forms.Label();
-            flowFontIcons = new System.Windows.Forms.FlowLayoutPanel();
-            lblFontTitle = new System.Windows.Forms.Label();
             lblVersion = new System.Windows.Forms.Label();
-            btnReset = new System.Windows.Forms.Button();
             btnCancel = new System.Windows.Forms.Button();
             btnOK = new System.Windows.Forms.Button();
+            txtRasterSearch = new System.Windows.Forms.TextBox();
             tabControl.SuspendLayout();
             tabImagePicker.SuspendLayout();
-            panelTop.SuspendLayout();
+            panelPreview.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)picPreview).BeginInit();
+            panelLeft.SuspendLayout();
+            grpResourceContext.SuspendLayout();
+            panelProjectResource.SuspendLayout();
+            panelLocalResource.SuspendLayout();
             tabRasterImages.SuspendLayout();
-            tabVectorImages.SuspendLayout();
-            tabFontIcons.SuspendLayout();
+            panelRasterFilters.SuspendLayout();
             SuspendLayout();
             // 
             // tabControl
@@ -73,268 +72,310 @@
             tabControl.Location = new System.Drawing.Point(12, 12);
             tabControl.Name = "tabControl";
             tabControl.SelectedIndex = 0;
-            tabControl.Size = new System.Drawing.Size(680, 530);
+            tabControl.Size = new System.Drawing.Size(660, 520);
             tabControl.TabIndex = 0;
             // 
             // tabImagePicker
             // 
-            tabImagePicker.Controls.Add(rbProjectResources);
-            tabImagePicker.Controls.Add(rbFormResources);
-            tabImagePicker.Controls.Add(flowIcons);
-            tabImagePicker.Controls.Add(lblIcons);
-            tabImagePicker.Controls.Add(lstCategories);
-            tabImagePicker.Controls.Add(lblCategories);
-            tabImagePicker.Controls.Add(panelTop);
+            tabImagePicker.Controls.Add(panelPreview);
+            tabImagePicker.Controls.Add(panelLeft);
             tabImagePicker.Location = new System.Drawing.Point(4, 24);
             tabImagePicker.Name = "tabImagePicker";
             tabImagePicker.Padding = new System.Windows.Forms.Padding(3);
-            tabImagePicker.Size = new System.Drawing.Size(672, 502);
+            tabImagePicker.Size = new System.Drawing.Size(652, 492);
             tabImagePicker.TabIndex = 0;
             tabImagePicker.Text = "Image Picker";
             tabImagePicker.UseVisualStyleBackColor = true;
             // 
-            // rbProjectResources
+            // panelPreview
             // 
-            rbProjectResources.AutoSize = true;
-            rbProjectResources.Location = new System.Drawing.Point(440, 460);
-            rbProjectResources.Name = "rbProjectResources";
-            rbProjectResources.Size = new System.Drawing.Size(154, 19);
-            rbProjectResources.TabIndex = 6;
-            rbProjectResources.Text = "Add to project resources";
-            rbProjectResources.UseVisualStyleBackColor = true;
+            panelPreview.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
+            panelPreview.BackColor = System.Drawing.Color.Gray;
+            panelPreview.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            panelPreview.Controls.Add(picPreview);
+            panelPreview.Location = new System.Drawing.Point(290, 10);
+            panelPreview.Name = "panelPreview";
+            panelPreview.Size = new System.Drawing.Size(350, 470);
+            panelPreview.TabIndex = 1;
             // 
-            // rbFormResources
+            // picPreview
             // 
-            rbFormResources.AutoSize = true;
-            rbFormResources.Checked = true;
-            rbFormResources.Location = new System.Drawing.Point(220, 460);
-            rbFormResources.Name = "rbFormResources";
-            rbFormResources.Size = new System.Drawing.Size(143, 19);
-            rbFormResources.TabIndex = 5;
-            rbFormResources.TabStop = true;
-            rbFormResources.Text = "Add to form resources";
-            rbFormResources.UseVisualStyleBackColor = true;
+            picPreview.Dock = System.Windows.Forms.DockStyle.Fill;
+            picPreview.Location = new System.Drawing.Point(0, 0);
+            picPreview.Name = "picPreview";
+            picPreview.Size = new System.Drawing.Size(348, 468);
+            picPreview.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
+            picPreview.TabIndex = 0;
+            picPreview.TabStop = false;
             // 
-            // flowIcons
+            // panelLeft
             // 
-            flowIcons.AutoScroll = true;
-            flowIcons.BackColor = System.Drawing.Color.White;
-            flowIcons.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            flowIcons.Location = new System.Drawing.Point(220, 70);
-            flowIcons.Name = "flowIcons";
-            flowIcons.Size = new System.Drawing.Size(440, 380);
-            flowIcons.TabIndex = 4;
+            panelLeft.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left;
+            panelLeft.Controls.Add(grpResourceContext);
+            panelLeft.Location = new System.Drawing.Point(10, 10);
+            panelLeft.Name = "panelLeft";
+            panelLeft.Size = new System.Drawing.Size(270, 470);
+            panelLeft.TabIndex = 0;
             // 
-            // lblIcons
+            // grpResourceContext
             // 
-            lblIcons.AutoSize = true;
-            lblIcons.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold);
-            lblIcons.Location = new System.Drawing.Point(220, 45);
-            lblIcons.Name = "lblIcons";
-            lblIcons.Size = new System.Drawing.Size(36, 15);
-            lblIcons.TabIndex = 3;
-            lblIcons.Text = "Icons";
+            grpResourceContext.Controls.Add(panelProjectResource);
+            grpResourceContext.Controls.Add(rbProjectResource);
+            grpResourceContext.Controls.Add(panelLocalResource);
+            grpResourceContext.Controls.Add(rbLocalResource);
+            grpResourceContext.Dock = System.Windows.Forms.DockStyle.Fill;
+            grpResourceContext.Location = new System.Drawing.Point(0, 0);
+            grpResourceContext.Name = "grpResourceContext";
+            grpResourceContext.Size = new System.Drawing.Size(270, 470);
+            grpResourceContext.TabIndex = 0;
+            grpResourceContext.TabStop = false;
+            grpResourceContext.Text = "Resource context";
             // 
-            // lstCategories
+            // panelProjectResource
             // 
-            lstCategories.FormattingEnabled = true;
-            lstCategories.ItemHeight = 15;
-            lstCategories.Location = new System.Drawing.Point(10, 70);
-            lstCategories.Name = "lstCategories";
-            lstCategories.Size = new System.Drawing.Size(200, 379);
-            lstCategories.TabIndex = 2;
+            panelProjectResource.Controls.Add(btnImportProject);
+            panelProjectResource.Controls.Add(txtProjectResource);
+            panelProjectResource.Controls.Add(lblProjectResource);
+            panelProjectResource.Enabled = false;
+            panelProjectResource.Location = new System.Drawing.Point(15, 310);
+            panelProjectResource.Name = "panelProjectResource";
+            panelProjectResource.Size = new System.Drawing.Size(240, 150);
+            panelProjectResource.TabIndex = 3;
             // 
-            // lblCategories
+            // btnImportProject
             // 
-            lblCategories.AutoSize = true;
-            lblCategories.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold);
-            lblCategories.Location = new System.Drawing.Point(10, 45);
-            lblCategories.Name = "lblCategories";
-            lblCategories.Size = new System.Drawing.Size(66, 15);
-            lblCategories.TabIndex = 1;
-            lblCategories.Text = "Categories";
+            btnImportProject.Location = new System.Drawing.Point(10, 110);
+            btnImportProject.Name = "btnImportProject";
+            btnImportProject.Size = new System.Drawing.Size(100, 30);
+            btnImportProject.TabIndex = 2;
+            btnImportProject.Text = "Import...";
+            btnImportProject.UseVisualStyleBackColor = true;
             // 
-            // panelTop
+            // txtProjectResource
             // 
-            panelTop.Controls.Add(cmbSize);
-            panelTop.Controls.Add(lblSize);
-            panelTop.Controls.Add(txtSearch);
-            panelTop.Location = new System.Drawing.Point(10, 10);
-            panelTop.Name = "panelTop";
-            panelTop.Size = new System.Drawing.Size(421, 35);
-            panelTop.TabIndex = 0;
+            txtProjectResource.Location = new System.Drawing.Point(10, 30);
+            txtProjectResource.Multiline = true;
+            txtProjectResource.Name = "txtProjectResource";
+            txtProjectResource.ReadOnly = true;
+            txtProjectResource.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            txtProjectResource.Size = new System.Drawing.Size(220, 70);
+            txtProjectResource.TabIndex = 1;
+            txtProjectResource.Text = "My.Project.Resources.resx";
             // 
-            // cmbSize
+            // lblProjectResource
             // 
-            cmbSize.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            cmbSize.FormattingEnabled = true;
-            cmbSize.Items.AddRange(new object[] { "All", "16x16", "32x32", "48x48" });
-            cmbSize.Location = new System.Drawing.Point(310, 5);
-            cmbSize.Name = "cmbSize";
-            cmbSize.Size = new System.Drawing.Size(80, 23);
-            cmbSize.TabIndex = 2;
+            lblProjectResource.AutoSize = true;
+            lblProjectResource.ForeColor = System.Drawing.SystemColors.GrayText;
+            lblProjectResource.Location = new System.Drawing.Point(10, 10);
+            lblProjectResource.Name = "lblProjectResource";
+            lblProjectResource.Size = new System.Drawing.Size(0, 15);
+            lblProjectResource.TabIndex = 0;
             // 
-            // lblSize
+            // rbProjectResource
             // 
-            lblSize.Location = new System.Drawing.Point(270, 8);
-            lblSize.Name = "lblSize";
-            lblSize.Size = new System.Drawing.Size(35, 20);
-            lblSize.TabIndex = 1;
-            lblSize.Text = "Size:";
-            lblSize.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            rbProjectResource.AutoSize = true;
+            rbProjectResource.Location = new System.Drawing.Point(15, 285);
+            rbProjectResource.Name = "rbProjectResource";
+            rbProjectResource.Size = new System.Drawing.Size(110, 19);
+            rbProjectResource.TabIndex = 2;
+            rbProjectResource.Text = "Project resource";
+            rbProjectResource.UseVisualStyleBackColor = true;
             // 
-            // txtSearch
+            // panelLocalResource
             // 
-            txtSearch.ForeColor = System.Drawing.Color.Gray;
-            txtSearch.Location = new System.Drawing.Point(0, 5);
-            txtSearch.Name = "txtSearch";
-            txtSearch.Size = new System.Drawing.Size(250, 23);
-            txtSearch.TabIndex = 0;
-            txtSearch.Text = "Search icons...";
+            panelLocalResource.Controls.Add(btnImportLocal);
+            panelLocalResource.Controls.Add(btnClearLocal);
+            panelLocalResource.Controls.Add(lstLocalResources);
+            panelLocalResource.Location = new System.Drawing.Point(15, 45);
+            panelLocalResource.Name = "panelLocalResource";
+            panelLocalResource.Size = new System.Drawing.Size(240, 230);
+            panelLocalResource.TabIndex = 1;
+            // 
+            // btnImportLocal
+            // 
+            btnImportLocal.Location = new System.Drawing.Point(10, 190);
+            btnImportLocal.Name = "btnImportLocal";
+            btnImportLocal.Size = new System.Drawing.Size(100, 30);
+            btnImportLocal.TabIndex = 2;
+            btnImportLocal.Text = "Import...";
+            btnImportLocal.UseVisualStyleBackColor = true;
+            // 
+            // btnClearLocal
+            // 
+            btnClearLocal.Location = new System.Drawing.Point(120, 190);
+            btnClearLocal.Name = "btnClearLocal";
+            btnClearLocal.Size = new System.Drawing.Size(100, 30);
+            btnClearLocal.TabIndex = 1;
+            btnClearLocal.Text = "Clear";
+            btnClearLocal.UseVisualStyleBackColor = true;
+            // 
+            // lstLocalResources
+            // 
+            lstLocalResources.FormattingEnabled = true;
+            lstLocalResources.ItemHeight = 15;
+            lstLocalResources.Location = new System.Drawing.Point(10, 10);
+            lstLocalResources.Name = "lstLocalResources";
+            lstLocalResources.Size = new System.Drawing.Size(220, 169);
+            lstLocalResources.TabIndex = 0;
+            // 
+            // rbLocalResource
+            // 
+            rbLocalResource.AutoSize = true;
+            rbLocalResource.Checked = true;
+            rbLocalResource.Location = new System.Drawing.Point(15, 25);
+            rbLocalResource.Name = "rbLocalResource";
+            rbLocalResource.Size = new System.Drawing.Size(101, 19);
+            rbLocalResource.TabIndex = 0;
+            rbLocalResource.TabStop = true;
+            rbLocalResource.Text = "Local resource";
+            rbLocalResource.UseVisualStyleBackColor = true;
             // 
             // tabRasterImages
             // 
-            tabRasterImages.Controls.Add(btnClearRaster);
-            tabRasterImages.Controls.Add(btnImportRaster);
-            tabRasterImages.Controls.Add(lblRasterInfo);
+            tabRasterImages.Controls.Add(flowRasterIcons);
+            tabRasterImages.Controls.Add(panelRasterFilters);
+            tabRasterImages.Controls.Add(rbAddToForm);
+            tabRasterImages.Controls.Add(rbAddToProject);
             tabRasterImages.Location = new System.Drawing.Point(4, 24);
             tabRasterImages.Name = "tabRasterImages";
             tabRasterImages.Padding = new System.Windows.Forms.Padding(3);
-            tabRasterImages.Size = new System.Drawing.Size(672, 502);
+            tabRasterImages.Size = new System.Drawing.Size(652, 492);
             tabRasterImages.TabIndex = 1;
             tabRasterImages.Text = "Raster Images";
             tabRasterImages.UseVisualStyleBackColor = true;
             // 
-            // btnClearRaster
+            // flowRasterIcons
             // 
-            btnClearRaster.Location = new System.Drawing.Point(150, 50);
-            btnClearRaster.Name = "btnClearRaster";
-            btnClearRaster.Size = new System.Drawing.Size(120, 35);
-            btnClearRaster.TabIndex = 2;
-            btnClearRaster.Text = "Clear Selection";
-            btnClearRaster.UseVisualStyleBackColor = true;
+            flowRasterIcons.AutoScroll = true;
+            flowRasterIcons.BackColor = System.Drawing.Color.White;
+            flowRasterIcons.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            flowRasterIcons.Location = new System.Drawing.Point(230, 40);
+            flowRasterIcons.Name = "flowRasterIcons";
+            flowRasterIcons.Size = new System.Drawing.Size(410, 420);
+            flowRasterIcons.TabIndex = 2;
             // 
-            // btnImportRaster
+            // panelRasterFilters
             // 
-            btnImportRaster.Location = new System.Drawing.Point(20, 50);
-            btnImportRaster.Name = "btnImportRaster";
-            btnImportRaster.Size = new System.Drawing.Size(120, 35);
-            btnImportRaster.TabIndex = 1;
-            btnImportRaster.Text = "Import Image...";
-            btnImportRaster.UseVisualStyleBackColor = true;
+            panelRasterFilters.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            panelRasterFilters.Controls.Add(lblCategories);
+            panelRasterFilters.Controls.Add(chkListCategories);
+            panelRasterFilters.Controls.Add(lblSize);
+            panelRasterFilters.Controls.Add(chkListSize);
+            panelRasterFilters.Controls.Add(lblCollection);
+            panelRasterFilters.Controls.Add(chkListCollection);
+            panelRasterFilters.Location = new System.Drawing.Point(10, 40);
+            panelRasterFilters.Name = "panelRasterFilters";
+            panelRasterFilters.Size = new System.Drawing.Size(210, 420);
+            panelRasterFilters.TabIndex = 0;
             // 
-            // lblRasterInfo
+            // lblCategories
             // 
-            lblRasterInfo.AutoSize = true;
-            lblRasterInfo.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold);
-            lblRasterInfo.Location = new System.Drawing.Point(20, 20);
-            lblRasterInfo.Name = "lblRasterInfo";
-            lblRasterInfo.Size = new System.Drawing.Size(219, 15);
-            lblRasterInfo.TabIndex = 0;
-            lblRasterInfo.Text = "Import raster images (PNG, JPG, BMP)";
+            lblCategories.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold);
+            lblCategories.Location = new System.Drawing.Point(5, 5);
+            lblCategories.Name = "lblCategories";
+            lblCategories.Size = new System.Drawing.Size(190, 15);
+            lblCategories.TabIndex = 0;
+            lblCategories.Text = "Categories";
+            // 
+            // chkListCategories
+            // 
+            chkListCategories.CheckOnClick = true;
+            chkListCategories.Items.AddRange(new object[] { "Select All", "Actions", "Alignment", "Analysis", "Appearance", "Arrange", "Arrows", "Business Objects", "Chart" });
+            chkListCategories.Location = new System.Drawing.Point(5, 25);
+            chkListCategories.Name = "chkListCategories";
+            chkListCategories.Size = new System.Drawing.Size(195, 130);
+            chkListCategories.TabIndex = 0;
+            // 
+            // lblSize
+            // 
+            lblSize.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold);
+            lblSize.Location = new System.Drawing.Point(5, 165);
+            lblSize.Name = "lblSize";
+            lblSize.Size = new System.Drawing.Size(190, 15);
+            lblSize.TabIndex = 1;
+            lblSize.Text = "Size";
+            // 
+            // chkListSize
+            // 
+            chkListSize.CheckOnClick = true;
+            chkListSize.Items.AddRange(new object[] { "16x16", "32x32" });
+            chkListSize.Location = new System.Drawing.Point(5, 185);
+            chkListSize.Name = "chkListSize";
+            chkListSize.Size = new System.Drawing.Size(195, 40);
+            chkListSize.TabIndex = 1;
+            // 
+            // lblCollection
+            // 
+            lblCollection.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold);
+            lblCollection.Location = new System.Drawing.Point(5, 247);
+            lblCollection.Name = "lblCollection";
+            lblCollection.Size = new System.Drawing.Size(190, 15);
+            lblCollection.TabIndex = 2;
+            lblCollection.Text = "Collection";
+            // 
+            // chkListCollection
+            // 
+            chkListCollection.CheckOnClick = true;
+            chkListCollection.Items.AddRange(new object[] { "Colored", "Grayscale", "DevAV", "Office 2013" });
+            chkListCollection.Location = new System.Drawing.Point(5, 267);
+            chkListCollection.Name = "chkListCollection";
+            chkListCollection.Size = new System.Drawing.Size(195, 58);
+            chkListCollection.TabIndex = 2;
+            // 
+            // rbAddToForm
+            // 
+            rbAddToForm.Checked = true;
+            rbAddToForm.Location = new System.Drawing.Point(230, 467);
+            rbAddToForm.Name = "rbAddToForm";
+            rbAddToForm.Size = new System.Drawing.Size(160, 20);
+            rbAddToForm.TabIndex = 4;
+            rbAddToForm.TabStop = true;
+            rbAddToForm.Text = "Add to form resources";
+            // 
+            // rbAddToProject
+            // 
+            rbAddToProject.Location = new System.Drawing.Point(50, 467);
+            rbAddToProject.Name = "rbAddToProject";
+            rbAddToProject.Size = new System.Drawing.Size(160, 20);
+            rbAddToProject.TabIndex = 3;
+            rbAddToProject.Text = "Add to project resources";
             // 
             // tabVectorImages
             // 
-            tabVectorImages.Controls.Add(btnImportVector);
-            tabVectorImages.Controls.Add(lblVectorInfo);
             tabVectorImages.Location = new System.Drawing.Point(4, 24);
             tabVectorImages.Name = "tabVectorImages";
-            tabVectorImages.Size = new System.Drawing.Size(672, 502);
+            tabVectorImages.Size = new System.Drawing.Size(652, 492);
             tabVectorImages.TabIndex = 2;
             tabVectorImages.Text = "Vector Images";
             tabVectorImages.UseVisualStyleBackColor = true;
             // 
-            // btnImportVector
-            // 
-            btnImportVector.Enabled = false;
-            btnImportVector.Location = new System.Drawing.Point(20, 50);
-            btnImportVector.Name = "btnImportVector";
-            btnImportVector.Size = new System.Drawing.Size(120, 35);
-            btnImportVector.TabIndex = 1;
-            btnImportVector.Text = "Import SVG...";
-            btnImportVector.UseVisualStyleBackColor = true;
-            // 
-            // lblVectorInfo
-            // 
-            lblVectorInfo.AutoSize = true;
-            lblVectorInfo.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Italic);
-            lblVectorInfo.ForeColor = System.Drawing.Color.Gray;
-            lblVectorInfo.Location = new System.Drawing.Point(20, 20);
-            lblVectorInfo.Name = "lblVectorInfo";
-            lblVectorInfo.Size = new System.Drawing.Size(228, 15);
-            lblVectorInfo.TabIndex = 0;
-            lblVectorInfo.Text = "Import vector images (SVG) - Coming soon";
-            // 
             // tabFontIcons
             // 
-            tabFontIcons.Controls.Add(lblFontNote);
-            tabFontIcons.Controls.Add(flowFontIcons);
-            tabFontIcons.Controls.Add(lblFontTitle);
             tabFontIcons.Location = new System.Drawing.Point(4, 24);
             tabFontIcons.Name = "tabFontIcons";
-            tabFontIcons.Size = new System.Drawing.Size(672, 502);
+            tabFontIcons.Size = new System.Drawing.Size(652, 492);
             tabFontIcons.TabIndex = 3;
             tabFontIcons.Text = "Font Icons";
             tabFontIcons.UseVisualStyleBackColor = true;
-            // 
-            // lblFontNote
-            // 
-            lblFontNote.Font = new System.Drawing.Font("Segoe UI", 8F, System.Drawing.FontStyle.Italic);
-            lblFontNote.ForeColor = System.Drawing.Color.Gray;
-            lblFontNote.Location = new System.Drawing.Point(20, 450);
-            lblFontNote.Name = "lblFontNote";
-            lblFontNote.Size = new System.Drawing.Size(600, 30);
-            lblFontNote.TabIndex = 2;
-            lblFontNote.Text = "NOTE: Font icons are system-dependent and may not display correctly on all systems.";
-            // 
-            // flowFontIcons
-            // 
-            flowFontIcons.AutoScroll = true;
-            flowFontIcons.BackColor = System.Drawing.Color.White;
-            flowFontIcons.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            flowFontIcons.Location = new System.Drawing.Point(20, 55);
-            flowFontIcons.Name = "flowFontIcons";
-            flowFontIcons.Size = new System.Drawing.Size(620, 380);
-            flowFontIcons.TabIndex = 1;
-            // 
-            // lblFontTitle
-            // 
-            lblFontTitle.AutoSize = true;
-            lblFontTitle.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold);
-            lblFontTitle.Location = new System.Drawing.Point(20, 20);
-            lblFontTitle.Name = "lblFontTitle";
-            lblFontTitle.Size = new System.Drawing.Size(220, 19);
-            lblFontTitle.TabIndex = 0;
-            lblFontTitle.Text = "Font Icons (Unicode Characters)";
             // 
             // lblVersion
             // 
             lblVersion.Anchor = System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left;
             lblVersion.AutoSize = true;
             lblVersion.ForeColor = System.Drawing.Color.Gray;
-            lblVersion.Location = new System.Drawing.Point(12, 565);
+            lblVersion.Location = new System.Drawing.Point(12, 548);
             lblVersion.Name = "lblVersion";
-            lblVersion.Size = new System.Drawing.Size(72, 15);
-            lblVersion.TabIndex = 4;
-            lblVersion.Text = "Version 1.1.0";
-            // 
-            // btnReset
-            // 
-            btnReset.Anchor = System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right;
-            btnReset.Location = new System.Drawing.Point(608, 555);
-            btnReset.Name = "btnReset";
-            btnReset.Size = new System.Drawing.Size(80, 30);
-            btnReset.TabIndex = 3;
-            btnReset.Text = "Reset";
-            btnReset.UseVisualStyleBackColor = true;
+            lblVersion.Size = new System.Drawing.Size(87, 15);
+            lblVersion.TabIndex = 3;
+            lblVersion.Text = "Version 24.1.7.0";
             // 
             // btnCancel
             // 
             btnCancel.Anchor = System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right;
             btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            btnCancel.Location = new System.Drawing.Point(518, 555);
+            btnCancel.Location = new System.Drawing.Point(582, 543);
             btnCancel.Name = "btnCancel";
-            btnCancel.Size = new System.Drawing.Size(80, 30);
+            btnCancel.Size = new System.Drawing.Size(85, 30);
             btnCancel.TabIndex = 2;
             btnCancel.Text = "Cancel";
             btnCancel.UseVisualStyleBackColor = true;
@@ -342,13 +383,22 @@
             // btnOK
             // 
             btnOK.Anchor = System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right;
-            btnOK.DialogResult = System.Windows.Forms.DialogResult.OK;
-            btnOK.Location = new System.Drawing.Point(428, 555);
+            btnOK.Location = new System.Drawing.Point(487, 543);
             btnOK.Name = "btnOK";
-            btnOK.Size = new System.Drawing.Size(80, 30);
+            btnOK.Size = new System.Drawing.Size(85, 30);
             btnOK.TabIndex = 1;
             btnOK.Text = "OK";
             btnOK.UseVisualStyleBackColor = true;
+            btnOK.Click += BtnOK_Click;
+            // 
+            // txtRasterSearch
+            // 
+            txtRasterSearch.ForeColor = System.Drawing.Color.Gray;
+            txtRasterSearch.Location = new System.Drawing.Point(430, 10);
+            txtRasterSearch.Name = "txtRasterSearch";
+            txtRasterSearch.Size = new System.Drawing.Size(200, 23);
+            txtRasterSearch.TabIndex = 1;
+            txtRasterSearch.Text = "Enter text to search...";
             // 
             // ImagePickerDialog
             // 
@@ -356,9 +406,8 @@
             AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             CancelButton = btnCancel;
-            ClientSize = new System.Drawing.Size(704, 601);
+            ClientSize = new System.Drawing.Size(684, 591);
             Controls.Add(lblVersion);
-            Controls.Add(btnReset);
             Controls.Add(btnCancel);
             Controls.Add(btnOK);
             Controls.Add(tabControl);
@@ -371,15 +420,16 @@
             Text = "Image Picker";
             tabControl.ResumeLayout(false);
             tabImagePicker.ResumeLayout(false);
-            tabImagePicker.PerformLayout();
-            panelTop.ResumeLayout(false);
-            panelTop.PerformLayout();
+            panelPreview.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)picPreview).EndInit();
+            panelLeft.ResumeLayout(false);
+            grpResourceContext.ResumeLayout(false);
+            grpResourceContext.PerformLayout();
+            panelProjectResource.ResumeLayout(false);
+            panelProjectResource.PerformLayout();
+            panelLocalResource.ResumeLayout(false);
             tabRasterImages.ResumeLayout(false);
-            tabRasterImages.PerformLayout();
-            tabVectorImages.ResumeLayout(false);
-            tabVectorImages.PerformLayout();
-            tabFontIcons.ResumeLayout(false);
-            tabFontIcons.PerformLayout();
+            panelRasterFilters.ResumeLayout(false);
             ResumeLayout(false);
             PerformLayout();
 
@@ -392,27 +442,35 @@
         private System.Windows.Forms.TabPage tabRasterImages;
         private System.Windows.Forms.TabPage tabVectorImages;
         private System.Windows.Forms.TabPage tabFontIcons;
-        private System.Windows.Forms.Panel panelTop;
-        private System.Windows.Forms.TextBox txtSearch;
-        private System.Windows.Forms.Label lblSize;
-        private System.Windows.Forms.ComboBox cmbSize;
-        private System.Windows.Forms.Label lblCategories;
-        private System.Windows.Forms.ListBox lstCategories;
-        private System.Windows.Forms.Label lblIcons;
-        private System.Windows.Forms.FlowLayoutPanel flowIcons;
-        private System.Windows.Forms.RadioButton rbFormResources;
-        private System.Windows.Forms.RadioButton rbProjectResources;
-        private System.Windows.Forms.Label lblRasterInfo;
-        private System.Windows.Forms.Button btnImportRaster;
-        private System.Windows.Forms.Button btnClearRaster;
-        private System.Windows.Forms.Label lblVectorInfo;
-        private System.Windows.Forms.Button btnImportVector;
-        private System.Windows.Forms.Label lblFontTitle;
-        private System.Windows.Forms.FlowLayoutPanel flowFontIcons;
-        private System.Windows.Forms.Label lblFontNote;
+        private System.Windows.Forms.Panel panelLeft;
+        private System.Windows.Forms.GroupBox grpResourceContext;
+        private System.Windows.Forms.RadioButton rbLocalResource;
+        private System.Windows.Forms.Panel panelLocalResource;
+        private System.Windows.Forms.ListBox lstLocalResources;
+        private System.Windows.Forms.Button btnClearLocal;
+        private System.Windows.Forms.Button btnImportLocal;
+        private System.Windows.Forms.RadioButton rbProjectResource;
+        private System.Windows.Forms.Panel panelProjectResource;
+        private System.Windows.Forms.TextBox txtProjectResource;
+        private System.Windows.Forms.Label lblProjectResource;
+        private System.Windows.Forms.Button btnImportProject;
+        private System.Windows.Forms.Panel panelPreview;
+        private System.Windows.Forms.PictureBox picPreview;
         private System.Windows.Forms.Button btnOK;
         private System.Windows.Forms.Button btnCancel;
-        private System.Windows.Forms.Button btnReset;
         private System.Windows.Forms.Label lblVersion;
+
+        // Raster Images tab controls
+        private System.Windows.Forms.Panel panelRasterFilters;
+        private System.Windows.Forms.TextBox txtRasterSearch;
+        private System.Windows.Forms.CheckedListBox chkListCategories;
+        private System.Windows.Forms.CheckedListBox chkListSize;
+        private System.Windows.Forms.CheckedListBox chkListCollection;
+        private System.Windows.Forms.FlowLayoutPanel flowRasterIcons;
+        private System.Windows.Forms.RadioButton rbAddToProject;
+        private System.Windows.Forms.RadioButton rbAddToForm;
+        private System.Windows.Forms.Label lblCategories;
+        private System.Windows.Forms.Label lblSize;
+        private System.Windows.Forms.Label lblCollection;
     }
 }

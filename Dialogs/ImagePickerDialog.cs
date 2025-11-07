@@ -1,15 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
 using NeoSoft.UI.Enums;
-using NeoSoft.UI.Helpers;
 
 namespace NeoSoft.UI.Dialogs
 {
     /// <summary>
-    /// Image Picker dialog for selecting icons
-    /// SEPARATED DESIGNER VERSION - UI in Designer.cs file
+    /// Image Picker dialog - CORRECT LAYOUT
+    /// Matches Visual Studio's standard image picker
     /// </summary>
     public partial class ImagePickerDialog : Form
     {
@@ -17,32 +15,17 @@ namespace NeoSoft.UI.Dialogs
 
         private Image _selectedImage;
         private string _selectedIconName;
-        private int _selectedIconSize = 16;
         private PredefinedIcon _selectedPredefinedIcon = PredefinedIcon.None;
-        private bool _isSearchPlaceholder = true;
+        private bool _useLocalResource = true;
 
         #endregion
 
         #region Properties
 
-        /// <summary>
-        /// Gets the selected image
-        /// </summary>
         public Image SelectedImage => _selectedImage;
-
-        /// <summary>
-        /// Gets the selected icon name
-        /// </summary>
         public string SelectedIconName => _selectedIconName;
+        public bool UseLocalResource => _useLocalResource;
 
-        /// <summary>
-        /// Gets the selected icon size
-        /// </summary>
-        public int SelectedIconSize => _selectedIconSize;
-
-        /// <summary>
-        /// Gets the selected predefined icon
-        /// </summary>
         public PredefinedIcon SelectedIcon
         {
             get
@@ -68,43 +51,40 @@ namespace NeoSoft.UI.Dialogs
         {
             InitializeComponent();
             InitializeEvents();
-            LoadCategories();
-            LoadIcons();
+            LoadLocalResources();
         }
 
         #endregion
 
         #region Initialization
 
-        /// <summary>
-        /// Initialize event handlers
-        /// </summary>
         private void InitializeEvents()
         {
-            // Search box events
-            txtSearch.Enter += TxtSearch_Enter;
-            txtSearch.Leave += TxtSearch_Leave;
-            txtSearch.TextChanged += TxtSearch_TextChanged;
+            rbLocalResource.CheckedChanged += RbResource_CheckedChanged;
+            rbProjectResource.CheckedChanged += RbResource_CheckedChanged;
+            btnImportLocal.Click += BtnImportLocal_Click;
+            btnClearLocal.Click += BtnClearLocal_Click;
+            btnImportProject.Click += BtnImportProject_Click;
 
-            // ComboBox events
-            cmbSize.SelectedIndexChanged += CmbSize_SelectedIndexChanged;
+            // Raster Images tab events
+            chkListCategories.ItemCheck += ChkListCategories_ItemCheck;
+            chkListSize.ItemCheck += ChkListSize_ItemCheck;
+            txtRasterSearch.TextChanged += TxtRasterSearch_TextChanged;
 
-            // ListBox events
-            lstCategories.SelectedIndexChanged += LstCategories_SelectedIndexChanged;
-
-            // Button events
-            btnReset.Click += BtnReset_Click;
-            btnImportRaster.Click += BtnImportRaster_Click;
-            btnClearRaster.Click += BtnClearRaster_Click;
+            // Cargar iconos al cambiar de tab
+            tabControl.SelectedIndexChanged += (s, e) =>
+            {
+                if (tabControl.SelectedTab == tabRasterImages)
+                {
+                    LoadRasterIcons();
+                }
+            };
         }
 
         #endregion
 
         #region Public Methods
 
-        /// <summary>
-        /// Sets the initial icon to display as selected when the dialog opens
-        /// </summary>
         public void SetInitialIcon(PredefinedIcon icon)
         {
             _selectedPredefinedIcon = icon;
@@ -112,13 +92,9 @@ namespace NeoSoft.UI.Dialogs
             if (icon != PredefinedIcon.None)
             {
                 _selectedIconName = icon.ToString();
-                SelectIconByName(_selectedIconName);
             }
         }
 
-        /// <summary>
-        /// Sets the initial image to display as selected when the dialog opens
-        /// </summary>
         public void SetInitialImage(Image image, string name = null)
         {
             if (image != null)
@@ -133,313 +109,162 @@ namespace NeoSoft.UI.Dialogs
 
         #region Data Loading
 
-        private void LoadCategories()
+        private void LoadLocalResources()
         {
             try
             {
-                lstCategories.Items.Clear();
+                lstLocalResources.Items.Clear();
 
-                var categories = IconResourceLoader.GetCategories();
-
-                if (categories != null && categories.Count > 0)
-                {
-                    foreach (var category in categories)
-                    {
-                        lstCategories.Items.Add(category);
-                    }
-                }
-                else
-                {
-                    // Fallback categories
-                    lstCategories.Items.AddRange(new object[]
-                    {
-                        "All", "Actions", "Arrows", "Edit",
-                        "Navigation", "Files", "Media", "System"
-                    });
-                }
-
-                if (lstCategories.Items.Count > 0)
-                {
-                    lstCategories.SelectedIndex = 0;
-                }
+                // TODO: Cargar recursos locales del proyecto actual
+                // Por ahora, mostrar mensaje
+                lstLocalResources.Items.Add("(No local resources)");
             }
             catch (Exception ex)
             {
-                System.Diagnostics.Debug.WriteLine($"Error loading categories: {ex.Message}");
-                lstCategories.Items.AddRange(new object[] { "All", "Actions", "Arrows" });
-                lstCategories.SelectedIndex = 0;
+                System.Diagnostics.Debug.WriteLine($"Error loading local resources: {ex.Message}");
             }
         }
 
-        private void LoadIcons()
+        private void LoadProjectResources()
         {
             try
             {
-                flowIcons.SuspendLayout();
-                flowIcons.Controls.Clear();
-
-                string selectedCategory = lstCategories.SelectedItem?.ToString() ?? "All";
-                int filterSize = GetSelectedSize();
-
-                var icons = IconResourceLoader.GetIcons(selectedCategory, filterSize);
-
-                if (icons != null && icons.Count > 0)
-                {
-                    foreach (var iconResource in icons)
-                    {
-                        // IMPORTANTE: Limpiar el nombre aquí
-                        string cleanName = CleanIconName(iconResource.Name);
-
-                        Panel iconPanel = CreateIconPanel(
-                            iconResource.Image,
-                            cleanName,  // ← Usar nombre limpio
-                            iconResource.Name, // ← Guardar nombre original para búsqueda
-                            iconResource.Size
-                        );
-                        flowIcons.Controls.Add(iconPanel);
-                    }
-                }
-                else
-                {
-                    ShowNoIconsMessage();
-                }
-
-                flowIcons.ResumeLayout();
+                // TODO: Cargar desde Project.resx
+                MessageBox.Show("Project resource loading not implemented yet.",
+                    "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
             catch (Exception ex)
             {
-                System.Diagnostics.Debug.WriteLine($"Error loading icons: {ex.Message}");
-                ShowErrorMessage(ex.Message);
+                System.Diagnostics.Debug.WriteLine($"Error loading project resources: {ex.Message}");
             }
         }
 
-        /// <summary>
-        /// Cleans up icon names by removing resource path prefixes
-        /// </summary>
-        private string CleanIconName(string name)
+        private void LoadRasterIcons()
         {
-            if (string.IsNullOrEmpty(name))
-                return "Unknown";
-
-            string cleanName = name;
-
-            // 1. Remove common prefixes
-            string[] prefixesToRemove = new[]
+            try
             {
-                "NeoSoft.UI.Resources.Images.",
-                "Resources.Images.",
-                "Resources.",
-                "Images."
-            };
+                flowRasterIcons.SuspendLayout();
+                flowRasterIcons.Controls.Clear();
 
-            foreach (var prefix in prefixesToRemove)
-            {
-                if (cleanName.StartsWith(prefix, StringComparison.OrdinalIgnoreCase))
+                // Obtener categorías seleccionadas
+                var selectedCategories = new System.Collections.Generic.List<string>();
+                foreach (var item in chkListCategories.CheckedItems)
                 {
-                    cleanName = cleanName.Substring(prefix.Length);
+                    selectedCategories.Add(item.ToString());
                 }
-            }
 
-            // 2. Remove file extensions
-            string[] extensionsToRemove = new[]
-            {
-                ".png", ".jpg", ".jpeg", ".bmp", ".gif", ".ico"
-            };
-
-            foreach (var ext in extensionsToRemove)
-            {
-                if (cleanName.EndsWith(ext, StringComparison.OrdinalIgnoreCase))
+                // Obtener tamaños seleccionados
+                var selectedSizes = new System.Collections.Generic.List<int>();
+                foreach (var item in chkListSize.CheckedItems)
                 {
-                    cleanName = cleanName.Substring(0, cleanName.Length - ext.Length);
-                    break;
+                    string sizeStr = item.ToString();
+                    if (sizeStr == "16x16") selectedSizes.Add(16);
+                    else if (sizeStr == "32x32") selectedSizes.Add(32);
                 }
+
+                // Si no hay nada seleccionado, cargar todo
+                bool loadAll = selectedCategories.Count == 0 && selectedSizes.Count == 0;
+
+                // TODO: Cargar iconos desde recursos embebidos
+                // Por ahora, crear iconos de ejemplo
+                CreateSampleIcons(selectedCategories, selectedSizes, loadAll);
+
+                flowRasterIcons.ResumeLayout();
             }
-
-            // 3. Replace underscores and dots with spaces
-            cleanName = cleanName.Replace("_", " ").Replace(".", " ");
-
-            // 4. Remove extra spaces
-            while (cleanName.Contains("  "))
+            catch (Exception ex)
             {
-                cleanName = cleanName.Replace("  ", " ");
-            }
-            cleanName = cleanName.Trim();
-
-            // 5. Limit length
-            if (cleanName.Length > 18)
-            {
-                cleanName = cleanName.Substring(0, 15) + "...";
-            }
-
-            return cleanName;
-        }
-
-        private void ShowNoIconsMessage()
-        {
-            Label lblNoIcons = new Label
-            {
-                Text = "No icons found in this category.\n\n" +
-                       "To add icons:\n" +
-                       "1. Add images to: Resources/Images/{Category}/\n" +
-                       "2. Set Build Action: Embedded Resource",
-                Location = new Point(10, 10),
-                Size = new Size(400, 120),
-                ForeColor = Color.Gray,
-                TextAlign = ContentAlignment.MiddleCenter,
-                Font = new Font("Segoe UI", 9F)
-            };
-            flowIcons.Controls.Add(lblNoIcons);
-        }
-
-        private void ShowErrorMessage(string error)
-        {
-            Label lblError = new Label
-            {
-                Text = $"Error loading icons:\n{error}",
-                Location = new Point(10, 10),
-                Size = new Size(400, 100),
-                ForeColor = Color.Red,
-                Font = new Font("Segoe UI", 9F)
-            };
-            flowIcons.Controls.Add(lblError);
-        }
-
-        private int GetSelectedSize()
-        {
-            if (cmbSize.SelectedItem == null)
-                return 0;
-
-            string selected = cmbSize.SelectedItem.ToString();
-
-            switch (selected)
-            {
-                case "16x16": return 16;
-                case "32x32": return 32;
-                case "48x48": return 48;
-                default: return 0; // All
+                System.Diagnostics.Debug.WriteLine($"Error loading raster icons: {ex.Message}");
+                flowRasterIcons.ResumeLayout();
             }
         }
 
-        #endregion
-
-        #region UI Creation
-
-        /// <summary>
-        /// Creates an icon panel for the flow layout
-        /// </summary>
-        private Panel CreateIconPanel(Image icon, string displayName, string originalName, int size)
+        private void CreateSampleIcons(System.Collections.Generic.List<string> categories,
+            System.Collections.Generic.List<int> sizes, bool loadAll)
         {
-            int panelHeight = size + 55;
+            // Iconos de ejemplo para demostración
+            string[] sampleCategories = { "Actions", "Arrows", "Business Objects", "Chart" };
+            int[] sampleSizes = { 16, 32 };
 
+            for (int i = 0; i < 24; i++)
+            {
+                string category = sampleCategories[i % sampleCategories.Length];
+                int size = sampleSizes[i % sampleSizes.Length];
+
+                // Filtrar por categoría y tamaño si está seleccionado
+                if (!loadAll)
+                {
+                    if (categories.Count > 0 && !categories.Contains(category))
+                        continue;
+                    if (sizes.Count > 0 && !sizes.Contains(size))
+                        continue;
+                }
+
+                // Crear panel de icono de ejemplo
+                Panel iconPanel = CreateRasterIconPanel($"Icon{i + 1}", category, size);
+                flowRasterIcons.Controls.Add(iconPanel);
+            }
+
+            if (flowRasterIcons.Controls.Count == 0)
+            {
+                Label lblEmpty = new Label
+                {
+                    Text = "No icons found with selected filters",
+                    AutoSize = false,
+                    Size = new Size(300, 50),
+                    TextAlign = ContentAlignment.MiddleCenter,
+                    ForeColor = Color.Gray
+                };
+                flowRasterIcons.Controls.Add(lblEmpty);
+            }
+        }
+
+        private Panel CreateRasterIconPanel(string name, string category, int size)
+        {
             Panel panel = new Panel
             {
-                Size = new Size(75, panelHeight),
+                Size = new Size(48, 48),
+                Margin = new Padding(5),
                 BorderStyle = BorderStyle.FixedSingle,
                 Cursor = Cursors.Hand,
-                Margin = new Padding(5),
                 BackColor = Color.White,
-                Tag = new IconInfo
-                {
-                    DisplayName = displayName,    // Nombre para mostrar
-                    OriginalName = originalName,  // Nombre original para guardar
-                    Size = size,
-                    Image = icon
-                }
+                Tag = new RasterIconInfo { Name = name, Category = category, Size = size }
             };
 
-            // Icon PictureBox
-            PictureBox picIcon = new PictureBox
+            // Crear un icono simple de ejemplo (cuadrado con color)
+            PictureBox pic = new PictureBox
             {
                 Size = new Size(size, size),
-                Location = new Point((75 - size) / 2, 10),
-                SizeMode = PictureBoxSizeMode.StretchImage,
-                Image = icon
+                Location = new Point((48 - size) / 2, (48 - size) / 2),
+                BackColor = Color.FromArgb(100 + (name.GetHashCode() % 155),
+                                          100 + (category.GetHashCode() % 155),
+                                          100 + (size * 3 % 155))
             };
 
-            // Display name label
-            Label lblName = new Label
-            {
-                Text = displayName,  // ← Usar nombre limpio para mostrar
-                Location = new Point(2, size + 15),
-                Size = new Size(71, 30),
-                TextAlign = ContentAlignment.TopCenter,
-                Font = new Font("Segoe UI", 7.5F),
-                AutoSize = false
-            };
+            panel.Controls.Add(pic);
 
-            // Size label
-            Label lblSize = new Label
-            {
-                Text = $"{size}×{size}",
-                Location = new Point(2, size + 40),
-                Size = new Size(71, 15),
-                TextAlign = ContentAlignment.TopCenter,
-                Font = new Font("Segoe UI", 6.5F),
-                ForeColor = Color.Gray
-            };
-
-            panel.Controls.Add(picIcon);
-            panel.Controls.Add(lblName);
-            panel.Controls.Add(lblSize);
-
-            // Events
-            panel.Click += (s, e) => SelectIconPanel(panel);
-            picIcon.Click += (s, e) => SelectIconPanel(panel);
-            lblName.Click += (s, e) => SelectIconPanel(panel);
-            lblSize.Click += (s, e) => SelectIconPanel(panel);
+            // Eventos
+            panel.Click += (s, e) => SelectRasterIcon(panel);
+            pic.Click += (s, e) => SelectRasterIcon(panel);
 
             return panel;
         }
 
-        private void SelectIconPanel(Panel panel)
+        private void SelectRasterIcon(Panel panel)
         {
-            // Deselect all
-            foreach (Control ctrl in flowIcons.Controls)
+            // Deseleccionar todos
+            foreach (Control ctrl in flowRasterIcons.Controls)
             {
                 if (ctrl is Panel p)
                     p.BackColor = Color.White;
             }
 
-            // Select this one
-            panel.BackColor = Color.FromArgb(220, 240, 255);
+            // Seleccionar este
+            panel.BackColor = Color.LightBlue;
 
-            // Store selection
-            if (panel.Tag is IconInfo info)
+            // Asignar imagen seleccionada
+            if (panel.Tag is RasterIconInfo info)
             {
-                _selectedImage = info.Image;
-                _selectedIconName = info.OriginalName;  // Guardar nombre original
-                _selectedIconSize = info.Size;
-
-                // Try to parse as predefined icon
-                string nameForParsing = info.OriginalName.Replace(" ", "");
-                if (Enum.TryParse(nameForParsing, true, out PredefinedIcon icon))
-                {
-                    _selectedPredefinedIcon = icon;
-                }
-                else
-                {
-                    _selectedPredefinedIcon = PredefinedIcon.None;
-                }
-            }
-        }
-
-        private void SelectIconByName(string name)
-        {
-            if (string.IsNullOrEmpty(name))
-                return;
-
-            foreach (Control ctrl in flowIcons.Controls)
-            {
-                if (ctrl is Panel panel && panel.Tag is IconInfo info)
-                {
-                    if (info.OriginalName.Equals(name, StringComparison.OrdinalIgnoreCase) ||
-                        info.DisplayName.Equals(name, StringComparison.OrdinalIgnoreCase))
-                    {
-                        SelectIconPanel(panel);
-                        flowIcons.ScrollControlIntoView(panel);
-                        break;
-                    }
-                }
+                _selectedIconName = info.Name;
             }
         }
 
@@ -447,87 +272,29 @@ namespace NeoSoft.UI.Dialogs
 
         #region Event Handlers
 
-        private void TxtSearch_Enter(object sender, EventArgs e)
+        private void RbResource_CheckedChanged(object sender, EventArgs e)
         {
-            if (_isSearchPlaceholder)
+            if (rbLocalResource.Checked)
             {
-                txtSearch.Text = "";
-                txtSearch.ForeColor = Color.Black;
-                _isSearchPlaceholder = false;
+                _useLocalResource = true;
+                panelLocalResource.Enabled = true;
+                panelProjectResource.Enabled = false;
+                LoadLocalResources();
+            }
+            else if (rbProjectResource.Checked)
+            {
+                _useLocalResource = false;
+                panelLocalResource.Enabled = false;
+                panelProjectResource.Enabled = true;
+                LoadProjectResources();
             }
         }
 
-        private void TxtSearch_Leave(object sender, EventArgs e)
-        {
-            if (string.IsNullOrWhiteSpace(txtSearch.Text))
-            {
-                txtSearch.Text = "Search icons...";
-                txtSearch.ForeColor = Color.Gray;
-                _isSearchPlaceholder = true;
-            }
-        }
-
-        private void TxtSearch_TextChanged(object sender, EventArgs e)
-        {
-            if (_isSearchPlaceholder)
-                return;
-
-            string searchText = txtSearch.Text.ToLower();
-
-            foreach (Control ctrl in flowIcons.Controls)
-            {
-                if (ctrl is Panel panel && panel.Tag is IconInfo info)
-                {
-                    // Buscar en ambos nombres
-                    ctrl.Visible = string.IsNullOrEmpty(searchText) ||
-                                   info.DisplayName.ToLower().Contains(searchText) ||
-                                   info.OriginalName.ToLower().Contains(searchText);
-                }
-            }
-        }
-
-        private void LstCategories_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            LoadIcons();
-        }
-
-        private void CmbSize_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            LoadIcons();
-        }
-
-        private void BtnReset_Click(object sender, EventArgs e)
-        {
-            _selectedImage = null;
-            _selectedIconName = null;
-            _selectedIconSize = 16;
-            _selectedPredefinedIcon = PredefinedIcon.None;
-
-            txtSearch.Text = "Search icons...";
-            txtSearch.ForeColor = Color.Gray;
-            _isSearchPlaceholder = true;
-
-            if (lstCategories.Items.Count > 0)
-                lstCategories.SelectedIndex = 0;
-
-            if (cmbSize.Items.Count > 0)
-                cmbSize.SelectedIndex = 0;
-
-            foreach (Control ctrl in flowIcons.Controls)
-            {
-                if (ctrl is Panel p)
-                    p.BackColor = Color.White;
-            }
-        }
-
-        private void BtnImportRaster_Click(object sender, EventArgs e)
+        private void BtnImportLocal_Click(object sender, EventArgs e)
         {
             using (OpenFileDialog ofd = new OpenFileDialog())
             {
-                ofd.Filter = "Image Files|*.png;*.jpg;*.jpeg;*.bmp;*.gif|" +
-                            "PNG Files|*.png|" +
-                            "JPEG Files|*.jpg;*.jpeg|" +
-                            "All Files|*.*";
+                ofd.Filter = "Image Files|*.png;*.jpg;*.jpeg;*.bmp;*.gif|PNG Files|*.png|JPEG Files|*.jpg;*.jpeg|All Files|*.*";
                 ofd.Title = "Select Image";
 
                 if (ofd.ShowDialog() == DialogResult.OK)
@@ -538,46 +305,95 @@ namespace NeoSoft.UI.Dialogs
                         _selectedIconName = System.IO.Path.GetFileNameWithoutExtension(ofd.FileName);
                         _selectedPredefinedIcon = PredefinedIcon.None;
 
-                        MessageBox.Show(
-                            $"Image loaded successfully!\n\n" +
-                            $"File: {_selectedIconName}\n" +
-                            $"Size: {_selectedImage.Width}×{_selectedImage.Height}",
-                            "Success",
-                            MessageBoxButtons.OK,
-                            MessageBoxIcon.Information);
+                        // Mostrar preview
+                        if (picPreview.Image != null)
+                            picPreview.Image.Dispose();
+
+                        picPreview.Image = new Bitmap(_selectedImage, picPreview.Size);
+
+                        MessageBox.Show($"Image loaded!\n\nFile: {_selectedIconName}\nSize: {_selectedImage.Width}×{_selectedImage.Height}",
+                            "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     }
                     catch (Exception ex)
                     {
-                        MessageBox.Show(
-                            $"Error loading image:\n\n{ex.Message}",
-                            "Error",
-                            MessageBoxButtons.OK,
-                            MessageBoxIcon.Error);
+                        MessageBox.Show($"Error loading image:\n\n{ex.Message}",
+                            "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }
                 }
             }
         }
 
-        private void BtnClearRaster_Click(object sender, EventArgs e)
+        private void BtnClearLocal_Click(object sender, EventArgs e)
         {
             _selectedImage = null;
             _selectedIconName = null;
             _selectedPredefinedIcon = PredefinedIcon.None;
-            MessageBox.Show("Selection cleared.", "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+            if (picPreview.Image != null)
+            {
+                picPreview.Image.Dispose();
+                picPreview.Image = null;
+            }
+
+            lstLocalResources.SelectedIndex = -1;
+        }
+
+        private void BtnImportProject_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show("Project resource import not implemented yet.",
+                "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
+        }
+
+        private void BtnOK_Click(object sender, EventArgs e)
+        {
+            if (_selectedImage == null)
+            {
+                MessageBox.Show("Please select an image first.",
+                    "No Image Selected", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                this.DialogResult = DialogResult.None;
+                return;
+            }
+
+            this.DialogResult = DialogResult.OK;
+        }
+
+        private void ChkListCategories_ItemCheck(object sender, ItemCheckEventArgs e)
+        {
+            // Usar BeginInvoke para que el cambio se aplique antes de recargar
+            this.BeginInvoke(new Action(() => LoadRasterIcons()));
+        }
+
+        private void ChkListSize_ItemCheck(object sender, ItemCheckEventArgs e)
+        {
+            this.BeginInvoke(new Action(() => LoadRasterIcons()));
+        }
+
+        private void TxtRasterSearch_TextChanged(object sender, EventArgs e)
+        {
+            string searchText = txtRasterSearch.Text.ToLower();
+
+            foreach (Control ctrl in flowRasterIcons.Controls)
+            {
+                if (ctrl is Panel panel && panel.Tag is RasterIconInfo info)
+                {
+                    string name = info.Name.ToLower();
+                    ctrl.Visible = string.IsNullOrEmpty(searchText) || name.Contains(searchText);
+                }
+            }
         }
 
         #endregion
 
         #region Helper Classes
 
-        private class IconInfo
+        private class RasterIconInfo
         {
-            public string DisplayName { get; set; }   // Nombre limpio para mostrar
-            public string OriginalName { get; set; }  // Nombre original completo
+            public string Name { get; set; }
+            public string Category { get; set; }
             public int Size { get; set; }
-            public Image Image { get; set; }
         }
 
         #endregion
+
     }
 }
