@@ -159,9 +159,9 @@
             panelTop.Controls.Add(cmbSize);
             panelTop.Controls.Add(lblSize);
             panelTop.Controls.Add(txtSearch);
-            panelTop.Location = new System.Drawing.Point(10, 7);
+            panelTop.Location = new System.Drawing.Point(10, 10);
             panelTop.Name = "panelTop";
-            panelTop.Size = new System.Drawing.Size(440, 35);
+            panelTop.Size = new System.Drawing.Size(421, 35);
             panelTop.TabIndex = 0;
             // 
             // cmbSize
@@ -171,7 +171,7 @@
             cmbSize.Items.AddRange(new object[] { "All", "16x16", "32x32", "48x48" });
             cmbSize.Location = new System.Drawing.Point(310, 5);
             cmbSize.Name = "cmbSize";
-            cmbSize.Size = new System.Drawing.Size(115, 23);
+            cmbSize.Size = new System.Drawing.Size(80, 23);
             cmbSize.TabIndex = 2;
             // 
             // lblSize
@@ -186,7 +186,7 @@
             // txtSearch
             // 
             txtSearch.ForeColor = System.Drawing.Color.Gray;
-            txtSearch.Location = new System.Drawing.Point(3, 5);
+            txtSearch.Location = new System.Drawing.Point(0, 5);
             txtSearch.Name = "txtSearch";
             txtSearch.Size = new System.Drawing.Size(250, 23);
             txtSearch.TabIndex = 0;

@@ -1,9 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
-VisualStudioVersion = 17.14.36301.6 d17.14
+VisualStudioVersion = 17.14.36301.6
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NeoSoft.UI", "NeoSoft.UI.csproj", "{28CCCDB7-C1A1-47B6-86EC-9DE9665C8C46}"
+EndProject
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "WinFormsApp1", "..\WinFormsApp1\WinFormsApp1.vbproj", "{2A177551-CE9F-40C8-95B6-378EF4C593A8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,14 @@ Global
 		{28CCCDB7-C1A1-47B6-86EC-9DE9665C8C46}.Release|Any CPU.Build.0 = Release|Any CPU
 		{28CCCDB7-C1A1-47B6-86EC-9DE9665C8C46}.Release|x86.ActiveCfg = Release|x86
 		{28CCCDB7-C1A1-47B6-86EC-9DE9665C8C46}.Release|x86.Build.0 = Release|x86
+		{2A177551-CE9F-40C8-95B6-378EF4C593A8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2A177551-CE9F-40C8-95B6-378EF4C593A8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2A177551-CE9F-40C8-95B6-378EF4C593A8}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{2A177551-CE9F-40C8-95B6-378EF4C593A8}.Debug|x86.Build.0 = Debug|Any CPU
+		{2A177551-CE9F-40C8-95B6-378EF4C593A8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2A177551-CE9F-40C8-95B6-378EF4C593A8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2A177551-CE9F-40C8-95B6-378EF4C593A8}.Release|x86.ActiveCfg = Release|Any CPU
+		{2A177551-CE9F-40C8-95B6-378EF4C593A8}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
