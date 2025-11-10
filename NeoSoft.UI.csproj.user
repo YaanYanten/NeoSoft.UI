@@ -5,6 +5,9 @@
     <Compile Update="Controls\PlaceholderTextBox.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Update="Controls\SideNavigationPanel.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Update="Controls\SimpleButton.cs">
       <SubType>Component</SubType>
     </Compile>

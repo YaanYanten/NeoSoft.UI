@@ -652,27 +652,36 @@ namespace NeoSoft.UI.Controls
             return Color.FromArgb(r, g, b);
         }
 
+        // REEMPLAZAR CON:
         /// <summary>
-        /// Gets a predefined icon as an Image
-        /// This method should load from embedded resources or generate icons
+        /// Gets a predefined icon as an Image from IconResourceLoader
         /// </summary>
         public Image GetPredefinedIcon(PredefinedIcon iconType)
         {
-            // TODO: Implement icon loading from embedded resources
-            // For now, returning null - you should implement this based on your icon resources
-            // Example implementation:
-            /*
-            switch (iconType)
+            if (iconType == PredefinedIcon.None)
+                return null;
+
+            try
             {
-                case PredefinedIcon.Home:
-                    return Properties.Resources.icon_home;
-                case PredefinedIcon.Settings:
-                    return Properties.Resources.icon_settings;
-                // ... etc
-                default:
-                    return null;
+                // Cargar desde IconResourceLoader
+                string iconName = iconType.ToString();
+                Image icon = Helpers.IconResourceLoader.GetIcon(iconName, _iconSize);
+
+                if (icon != null)
+                {
+                    System.Diagnostics.Debug.WriteLine($"✓ GetPredefinedIcon: {iconName} loaded ({icon.Width}x{icon.Height})");
+                    return icon;
+                }
+                else
+                {
+                    System.Diagnostics.Debug.WriteLine($"⚠ GetPredefinedIcon: {iconName} not found in resources");
+                }
             }
-            */
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"❌ GetPredefinedIcon error: {ex.Message}");
+            }
+
             return null;
         }
 

@@ -40,8 +40,6 @@
             chkListCategories = new System.Windows.Forms.CheckedListBox();
             lblSize = new System.Windows.Forms.Label();
             chkListSize = new System.Windows.Forms.CheckedListBox();
-            lblCollection = new System.Windows.Forms.Label();
-            chkListCollection = new System.Windows.Forms.CheckedListBox();
             rbAddToForm = new System.Windows.Forms.RadioButton();
             rbAddToProject = new System.Windows.Forms.RadioButton();
             tabVectorImages = new System.Windows.Forms.TabPage();
@@ -261,8 +259,6 @@
             panelRasterFilters.Controls.Add(chkListCategories);
             panelRasterFilters.Controls.Add(lblSize);
             panelRasterFilters.Controls.Add(chkListSize);
-            panelRasterFilters.Controls.Add(lblCollection);
-            panelRasterFilters.Controls.Add(chkListCollection);
             panelRasterFilters.Location = new System.Drawing.Point(10, 40);
             panelRasterFilters.Name = "panelRasterFilters";
             panelRasterFilters.Size = new System.Drawing.Size(210, 420);
@@ -283,13 +279,13 @@
             chkListCategories.Items.AddRange(new object[] { "Select All", "Actions", "Alignment", "Analysis", "Appearance", "Arrange", "Arrows", "Business Objects", "Chart" });
             chkListCategories.Location = new System.Drawing.Point(5, 25);
             chkListCategories.Name = "chkListCategories";
-            chkListCategories.Size = new System.Drawing.Size(195, 130);
+            chkListCategories.Size = new System.Drawing.Size(195, 292);
             chkListCategories.TabIndex = 0;
             // 
             // lblSize
             // 
             lblSize.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold);
-            lblSize.Location = new System.Drawing.Point(5, 165);
+            lblSize.Location = new System.Drawing.Point(5, 328);
             lblSize.Name = "lblSize";
             lblSize.Size = new System.Drawing.Size(190, 15);
             lblSize.TabIndex = 1;
@@ -299,28 +295,10 @@
             // 
             chkListSize.CheckOnClick = true;
             chkListSize.Items.AddRange(new object[] { "16x16", "32x32" });
-            chkListSize.Location = new System.Drawing.Point(5, 185);
+            chkListSize.Location = new System.Drawing.Point(5, 348);
             chkListSize.Name = "chkListSize";
             chkListSize.Size = new System.Drawing.Size(195, 40);
             chkListSize.TabIndex = 1;
-            // 
-            // lblCollection
-            // 
-            lblCollection.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold);
-            lblCollection.Location = new System.Drawing.Point(5, 247);
-            lblCollection.Name = "lblCollection";
-            lblCollection.Size = new System.Drawing.Size(190, 15);
-            lblCollection.TabIndex = 2;
-            lblCollection.Text = "Collection";
-            // 
-            // chkListCollection
-            // 
-            chkListCollection.CheckOnClick = true;
-            chkListCollection.Items.AddRange(new object[] { "Colored", "Grayscale", "DevAV", "Office 2013" });
-            chkListCollection.Location = new System.Drawing.Point(5, 267);
-            chkListCollection.Name = "chkListCollection";
-            chkListCollection.Size = new System.Drawing.Size(195, 58);
-            chkListCollection.TabIndex = 2;
             // 
             // rbAddToForm
             // 
@@ -465,12 +443,10 @@
         private System.Windows.Forms.TextBox txtRasterSearch;
         private System.Windows.Forms.CheckedListBox chkListCategories;
         private System.Windows.Forms.CheckedListBox chkListSize;
-        private System.Windows.Forms.CheckedListBox chkListCollection;
         private System.Windows.Forms.FlowLayoutPanel flowRasterIcons;
         private System.Windows.Forms.RadioButton rbAddToProject;
         private System.Windows.Forms.RadioButton rbAddToForm;
         private System.Windows.Forms.Label lblCategories;
         private System.Windows.Forms.Label lblSize;
-        private System.Windows.Forms.Label lblCollection;
     }
 }

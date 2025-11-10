@@ -58,7 +58,6 @@ namespace NeoSoft.UI.Helpers
                     try
                     {
                         // Parsear el nombre del recurso
-                        // Formato esperado: NeoSoft.UI.Resources.Images.Actions.ICONS_16.Add_x_16.png
                         var parts = resourceName.Split('.');
 
                         if (parts.Length < 6) continue;
@@ -73,7 +72,11 @@ namespace NeoSoft.UI.Helpers
                         {
                             if (stream != null)
                             {
-                                Image image = Image.FromStream(stream);
+                                // CRÍTICO: Crear Bitmap independiente del stream
+                                // NO usar Image.FromStream directamente porque se invalida al cerrar el stream
+                                Image tempImage = Image.FromStream(stream);
+                                Image independentImage = new Bitmap(tempImage);
+                                tempImage.Dispose();
 
                                 IconResource iconResource = new IconResource
                                 {
@@ -81,7 +84,7 @@ namespace NeoSoft.UI.Helpers
                                     Category = category,
                                     Size = size,
                                     ResourceName = resourceName,
-                                    Image = (Image)image.Clone() // Clonar para evitar problemas con el stream
+                                    Image = independentImage  // ← Imagen independiente
                                 };
 
                                 // Agregar al caché por categoría
@@ -100,6 +103,8 @@ namespace NeoSoft.UI.Helpers
                         System.Diagnostics.Debug.WriteLine($"Error loading icon {resourceName}: {ex.Message}");
                     }
                 }
+
+                System.Diagnostics.Debug.WriteLine($"✓ IconResourceLoader: {_iconCache.Sum(c => c.Value.Count)} iconos cargados");
             }
             catch (Exception ex)
             {
@@ -251,7 +256,8 @@ namespace NeoSoft.UI.Helpers
 
                 if (icon != null)
                 {
-                    return (Image)icon.Image.Clone();
+                    // CRÍTICO: Retornar copia independiente
+                    return new Bitmap(icon.Image);
                 }
             }
 

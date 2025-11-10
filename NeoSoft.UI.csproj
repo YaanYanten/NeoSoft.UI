@@ -12,9 +12,9 @@
     <!-- Assembly Information -->
     <AssemblyName>NeoSoft.UI</AssemblyName>
     <RootNamespace>NeoSoft.UI</RootNamespace>
-    <Version>1.0.0</Version>
-    <FileVersion>1.0.0.0</FileVersion>
-    <AssemblyVersion>1.0.0.0</AssemblyVersion>
+    <Version>1.0.5</Version>
+    <FileVersion>1.0.0.5</FileVersion>
+    <AssemblyVersion>1.0.0.5</AssemblyVersion>
 
     <!-- Package Information -->
     <Authors>Yaan Yanten</Authors>
@@ -68,6 +68,19 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Remove="Enums\ImagePosition.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Update="Properties\Settings.Designer.cs">
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Update="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
   </ItemGroup>
 
   <!-- Build output -->
